@@ -1,4 +1,4 @@
-import { Heading, Text } from "@chakra-ui/react";
+import { Heading, Text, Box } from "@chakra-ui/react";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { useState } from "react";
@@ -6,7 +6,7 @@ import banner1 from "../../../assets/Banner1.jpg";
 import banner2 from "../../../assets/Banner2.jpg";
 import banner3 from "../../../assets/Banner3.jpg";
 import banner4 from "../../../assets/Banner4.jpg";
-import { Typewriter } from 'react-simple-typewriter';
+import { Typewriter } from "react-simple-typewriter";
 import "./Hero.css";
 
 const images = [banner1, banner2, banner3, banner4];
@@ -54,14 +54,17 @@ const Hero = () => {
                   <Heading as="h1" size="4xl" mb={8}>
                     Discover the Art of Crafting
                   </Heading>
-                  <Text style={{ fontSize: "1.3rem" }}>
+                  <Text
+                    style={{ fontSize: "1.3rem" }}
+                    fontSize={{ base: "1rem", md: "1.3rem" }}
+                  >
                     Unleash your{" "}
                     <Typewriter
                       words={[
                         "creativity with our engaging art and craft classes.",
                         "inner artist's brilliance!",
                         "crafty spirit!",
-                        "imagination!"
+                        "imagination!",
                       ]}
                       loop={5}
                       cursor
@@ -73,7 +76,16 @@ const Hero = () => {
                       onType={handleType}
                     />
                   </Text>
-                  <button className="cta-button">Join Now</button>
+                  <Box
+                    as="button"
+                    className="cta-button"
+                    mt={{ base: 4, md: 8 }}
+                    px={4}
+                    py={2}
+                    fontSize={{ base: "0.9rem", md: "1rem" }}
+                  >
+                    Start Crafting Today!
+                  </Box>
                 </div>
               </div>
             </div>

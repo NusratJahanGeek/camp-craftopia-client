@@ -1,8 +1,9 @@
 .banner-slider-container {
-    height: 600px;
+    height: auto;
+    max-height: 600px;
     overflow: hidden;
   }
-
+  
   .color-overlay {
     position: absolute;
     top: 0;
@@ -13,44 +14,53 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #dededecf ;
+    background-color: #dededecf;
     color: #fff;
     text-align: center;
-    padding: 20px;
-    line-height: 40px;
+    padding: 10px;
+    line-height: 30px;
   }
   
-.text-overlay {
+  .text-overlay {
     position: absolute;
-    top: 33%;
+    top: 32%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    padding: 40px;
-    color:  #000;
-    border-radius: 20px;
+    padding: 20px;
+    color: #000;
+    border-radius: 10px;
+    width: 80%; /* Adjust the width as needed */
+    max-width: 600px; /* Adjust the max-width as needed */
   }
   
+  
   .text-overlay h2 {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
   }
   
   .text-overlay p {
-    font-size: 16px;
-    margin-bottom: 20px;
+    font-size: 14px;
+    margin-bottom: 10px;
   }
   
   .text-overlay .cta-button {
-    padding: 8px 20px;
-    background-color: #FF6B6B;
+    padding: 8px 18px;
+    background-color: #ff6b6b;
     color: #fff;
     border: none;
     border-radius: 4px;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
   }
   
   .cta-button:hover {
-    background-color: #FF4C4C;
+    background-color: #ff4c4c;
+  }
+  
+  @media (max-width: 992px) {
+    .text-overlay {
+      top: 50%;
+    }
   }

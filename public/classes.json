@@ -1,0 +1,110 @@
+[
+    {
+    "_id": 1,
+    "image": "https://i.ibb.co/x6KNX5W/Color-Splash-Tie-Dye-T-Shirt.jpg",
+    "name": "Color Splash: Tie-Dye T-Shirt",
+    "instructor": "Chris Anderson",
+    "availableSeats": 10,
+    "price": 25,
+    "totalStudents": 8
+    },
+    {
+    "_id": 2,
+    "image": "https://i.ibb.co/1svZDh3/Vibrant-Torn-Paper-Art.jpg",
+    "name": "Vibrant Torn Paper Art",
+    "instructor": "Amy Roberts",
+    "availableSeats": 12,
+    "price": 20,
+    "totalStudents": 6
+    },
+    {
+    "_id": 3,
+    "image": "https://i.ibb.co/LdxhyFC/Mosaic-Flower-Pots.jpg",
+    "name": "Mosaic Flower Pots",
+    "instructor": "Carlos Ramirez",
+    "availableSeats": 8,
+    "price": 30,
+    "totalStudents": 10
+    },
+    {
+    "_id": 4,
+    "image": "https://i.ibb.co/WHT5QtS/Plastic-Water-Bottle-Crafts-for-Kids.jpg",
+    "name": "Plastic Water Bottle Crafts for Kids",
+    "instructor": "Isabella Thompson",
+    "availableSeats": 15,
+    "price": 15,
+    "totalStudents": 12
+    },
+    {
+    "_id": 5,
+    "image": "https://i.ibb.co/pyMVS3L/Painted-Ladybug-Garden-Rock.jpg",
+    "name": "Painted Ladybug Garden Rock",
+    "instructor": "Chris Anderson",
+    "availableSeats": 10,
+    "price": 20,
+    "totalStudents": 7
+    },
+    {
+    "_id": 6,
+    "image": "https://i.ibb.co/XZw1v3k/Recycled-Photo-Frame.jpg",
+    "name": "Recycled Photo Frame",
+    "instructor": "Amy Roberts",
+    "availableSeats": 8,
+    "price": 25,
+    "totalStudents": 5
+    },
+    {
+    "_id": 7,
+    "image": "https://i.ibb.co/vQJrJM1/Colorful-Frozen-Fruit-Bar-Ice-Pops.jpg",
+    "name": "Colorful Frozen Fruit Bar Ice Pops",
+    "instructor": "Carlos Ramirez",
+    "availableSeats": 12,
+    "price": 20,
+    "totalStudents": 9
+    },
+    {
+    "_id": 8,
+    "image": "https://i.ibb.co/5c4pJKT/Plein-Air-Drawing-and-Painting.jpg",
+    "name": "Plein Air Drawing and Painting",
+    "instructor": "Isabella Thompson",
+    "availableSeats": 10,
+    "price": 30,
+    "totalStudents": 8
+    },
+    {
+    "_id": 9,
+    "image": "https://i.ibb.co/G35T7fY/Paper-Roll-Binoculars.jpg",
+    "name": "Paper Roll Binoculars",
+    "instructor": "Chris Anderson",
+    "availableSeats": 8,
+    "price": 15,
+    "totalStudents": 6
+    },
+    {
+    "_id": 10,
+    "image": "https://i.ibb.co/jZfdpdm/Paper-Bag-Kites.jpg",
+    "name": "Paper Bag Kites",
+    "instructor": "Amy Roberts",
+    "availableSeats": 12,
+    "price": 25,
+    "totalStudents": 11
+    },
+    {
+    "_id": 11,
+    "image": "https://i.ibb.co/mJmvw4X/Ice-Cream-Stick-Dolls.jpg",
+    "name": "Ice Cream Stick Dolls",
+    "instructor": "Carlos Ramirez",
+    "availableSeats": 10,
+    "price": 20,
+    "totalStudents": 8
+    },
+    {
+    "_id": 12,
+    "image": "https://i.ibb.co/Vj5VpLN/Tie-Dye-Pillowcase.jpg",
+    "name": "Tie Dye Pillowcase",
+    "instructor": "Isabella Thompson",
+    "availableSeats": 8,
+    "price": 30,
+    "totalStudents": 5
+    }
+    ]

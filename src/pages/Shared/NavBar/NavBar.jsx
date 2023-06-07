@@ -4,7 +4,8 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import logo from "../../../assets/Camp Craftopia.png";
 
 const NavBar = () => {
-  const isDesktop = useBreakpointValue({ base: false, md: true }); // Determine if it's desktop size
+  const isDesktop = useBreakpointValue({ base: false, md: true }); 
+  const mxValue = useBreakpointValue({ base: 0, lg: 84 });
 
   const navOptions = (
     <Center fontSize="lg">
@@ -30,24 +31,34 @@ const NavBar = () => {
   );
 
   return (
-    <Box align="center" my={2}>
+    <Box align="center" mt={2}>
       <img src={logo} width={100} alt="" />
       {isDesktop ? (
         <Flex
+          position="relative"
           bg="#FFD9EC"
           color="#000"
-          px={28}
-          mx={80}
           py={4}
-          my={3}
+          mt={3}
+          mb={-5}
+          mx={mxValue}
           rounded="2xl"
           align="center"
           justify="center"
+          zIndex={999}
         >
           {navOptions}
         </Flex>
       ) : (
-        <Box position="fixed" top={0} left={0} bg="#FFD9EC" py={4} px={6}>
+        <Box
+          position="fixed"
+          top={0}
+          left={0}
+          bg="#FFD9EC"
+          py={4}
+          px={6}
+          zIndex={999} // Set a higher z-index value
+        >
           <Menu>
             <MenuButton
               as={IconButton}

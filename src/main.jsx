@@ -12,6 +12,24 @@ const customTheme = extendTheme({
     heading: "Caveat, cursive",
     body: "Fredoka, sans-serif",
   },
+  components: {
+    Button: {
+      baseStyle: {
+        borderRadius: "4px",
+        fontSize: "20px",
+        cursor: "pointer",
+      },
+      variants: {
+        solid: {
+          bg: "#ff6b6b",
+          color: "#fff",
+          _hover: {
+            bg: "#ff4c4c",
+          },
+        }
+      }
+    }
+  }
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <>
       <hr style={{ borderColor: "#FFD9EC", opacity: 1, borderWidth: "2px" }} />
-      <Box bg="#FFFFFF" color="#000" py={4}>
+      <Box bg="#FFFFFF" color="#000" py={20}>
         <Grid
           templateColumns="1fr 1fr 1fr"
           gap={6}
@@ -49,7 +49,7 @@ const Footer = () => {
           </Box>
         </Grid>
       </Box>
-      <Box align="center" mt={8}>
+      <Box align="center">
         <Text>
           &copy; {new Date().getFullYear()} Camp Craftopia
         </Text>
