@@ -1,5 +1,4 @@
 import { Box, Flex, Grid, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
@@ -21,23 +20,15 @@ const Footer = () => {
             <Text fontSize="lg">Address: Dhaka, Bangladesh</Text>
 
             <Flex fontSize="3xl" justifyContent="center" mt={4} ml={-5}>
-              <Link
-                href="https://www.facebook.com/"
-                target="_blank"
-                style={{ marginRight: "8px" }}
-              >
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" style={{ marginRight: "8px" }}>
                 <FaFacebook />
-              </Link>
-              <Link
-                href="https://www.instagram.com/"
-                target="_blank"
-                style={{ marginRight: "8px" }}
-              >
+              </a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" style={{ marginRight: "8px" }}>
                 <FaInstagram />
-              </Link>
-              <Link href="https://linkedin.com/" target="_blank">
+              </a>
+              <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer">
                 <FaLinkedin />
-              </Link>
+              </a>
             </Flex>
           </Box>
           <Box style={{ lineHeight: "28px" }}>
