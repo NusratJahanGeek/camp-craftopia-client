@@ -1,52 +1,30 @@
 import { Button, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
 import SectionTitle from "../../../components/SectionTitle";
-import useInstructors from "../../../hooks/useInstructors";
 import TopInstructors from "../../Shared/TopInstructors/TopInstructors";
-import useClasses from "../../../hooks/useClasses";
 import { useEffect, useState } from "react";
+import useInstructorData from "../../../hooks/useInstructorData";
 
 const PopularInstructors = () => {
-  const [instructors] = useInstructors();
-  const [classes] = useClasses();
+  const instructorData = useInstructorData();
   const [topInstructors, setTopInstructors] = useState([]);
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
-    if (instructors.length > 0 && classes.length > 0) {
-      const combinedData = instructors.map((instructor) => {
-        const { _id, name, image, email } = instructor;
-        const instructorClasses = classes
-          .filter((classData) => classData.instructor === name)
-          .map((classData) => classData.name);
-        const totalStudents = instructorClasses.reduce(
-          (sum, classData) => sum + classData.totalStudents,
-          0
-        );
-        return {
-          _id,
-          name,
-          image,
-          email,
-          totalClasses: instructorClasses.length,
-          totalStudents,
-          classNames: instructorClasses,
-        };
-      });
-      const sortedData = combinedData.sort(
+    if (instructorData.length > 0) {
+      const sortedData = instructorData.sort(
         (a, b) => b.totalStudents - a.totalStudents
       );
       const topInstructors = sortedData.slice(0, 6);
       setTopInstructors(topInstructors);
     }
-  }, [instructors, classes]);
+  }, [instructorData]);
 
-  
   return (
     <div
-    style={{
-      margin: isDesktop ? "50px" : 0
-    }}
-  >
+      style={{
+        margin: isDesktop ? "50px" : 0
+      }}
+    >
       <div
         style={{
           backgroundColor: "#FFD9EC",
@@ -60,10 +38,10 @@ const PopularInstructors = () => {
           subHeading={"Learn from the Best in the Field"}
         />
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4} padding={2}>
-          {topInstructors.map((instructorsData) => (
+          {topInstructors.map((instructorData) => (
             <TopInstructors
-              key={instructorsData._id}
-              instructorsData={instructorsData}
+              key={instructorData._id}
+              instructorsData={instructorData}
             />
           ))}
         </SimpleGrid>
