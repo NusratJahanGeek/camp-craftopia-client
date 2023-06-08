@@ -1,12 +1,32 @@
-import { Box, Center, Flex, IconButton, Menu, MenuButton, MenuList, MenuItem, Text, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Text,
+  useBreakpointValue,
+  Button,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import logo from "../../../assets/Camp Craftopia.png";
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const NavBar = () => {
-  const isDesktop = useBreakpointValue({ base: false, md: true }); 
+  const { user, logOut } = useContext(AuthContext);
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   const mxValue = useBreakpointValue({ base: 0, lg: 84 });
 
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch(error => console.log(error));
+  }
   const navOptions = (
     <Center fontSize="lg">
       <Text as={Link} to="/">
@@ -24,9 +44,18 @@ const NavBar = () => {
       <Text as={Link} to="/dashboard" mx={5}>
         Dashboard
       </Text>
-      <Text as={Link} to="/login" mx={5}>
-        Login
-      </Text>
+
+      {user ? (
+        <>
+            <Button onClick={handleLogOut}>Log Out</Button>
+        </>
+      ) : (
+        <>
+          <Text as={Link} to="/login" mx={5}>
+            Login
+          </Text>
+        </>
+      )}
     </Center>
   );
 
@@ -63,7 +92,7 @@ const NavBar = () => {
             <MenuButton
               as={IconButton}
               aria-label="Options"
-              icon={<HamburgerIcon _hover={{ color: "#FF6B6B"}} />}
+              icon={<HamburgerIcon _hover={{ color: "#FF6B6B" }} />}
               variant="outline"
             />
             <MenuList color="#FF6B6B">
