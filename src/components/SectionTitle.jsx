@@ -1,9 +1,11 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, useBreakpointValue } from "@chakra-ui/react";
 import Arrow from "../../src/assets/arrow.svg";
 
 const SectionTitle = ({ heading, subHeading }) => {
+  const headingFontSize = useBreakpointValue({ base: "4xl", md: "5xl" });
+
   return (
-    <div className="my-12 text-center space-y-2 pt-16">
+    <div className="my-8 text-center space-y-2 pt-12">
       <Flex justify="center" gap={2}>
         <Text fontSize="lg" fontWeight="bold">
           {subHeading}
@@ -11,13 +13,18 @@ const SectionTitle = ({ heading, subHeading }) => {
         <img
           src={Arrow}
           style={{
-            width: "30px",
+            width: "50px",
             height: "auto",
           }}
           alt=""
         />
       </Flex>
-      <Text mt={-4} ml={-12} fontSize="5xl" fontFamily="heading" fontWeight="bold">
+      <Text
+        mt={-4}
+        fontSize={headingFontSize}
+        fontFamily="heading"
+        fontWeight="bold"
+      >
         {heading}
       </Text>
     </div>

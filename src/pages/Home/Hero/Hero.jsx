@@ -22,14 +22,6 @@ const Hero = () => {
     initial: 2,
   });
 
-  const handleType = (count) => {
-    // access word count number
-    console.log(count);
-  };
-
-  const handleDone = () => {
-    console.log(`Done after 5 loops!`);
-  };
 
   function scaleStyle(idx) {
     if (!details) return {};
@@ -72,8 +64,6 @@ const Hero = () => {
                       typeSpeed={70}
                       deleteSpeed={50}
                       delaySpeed={1000}
-                      onLoopDone={handleDone}
-                      onType={handleType}
                     />
                   </Text>
                   <Box
