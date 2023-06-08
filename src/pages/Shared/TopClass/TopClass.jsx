@@ -19,7 +19,7 @@ const TopClass = ({ classData }) => {
           />
           <div className="text-center">
           <Heading size="lg">{name}</Heading>
-          <Text py="2">Instructor: {instructor}</Text>
+          <Text pt="4">Instructor: {instructor}</Text>
           <Flex alignItems="center" justifyContent="center" gap={3} mb={2}>
           <Text>Price: ${price}</Text>
           <Text>|</Text>

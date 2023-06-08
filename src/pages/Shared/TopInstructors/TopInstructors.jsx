@@ -1,32 +1,23 @@
-import { Button, Card, CardBody, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import { Card, Heading, Image, Stack, Text } from "@chakra-ui/react";
 
 const TopInstructors = ({ instructorsData }) => {
-  const { name, image, email, totalClasses, totalStudents } = instructorsData;
+  const { name, image, totalClasses } = instructorsData;
 
   return (
-    <Card overflow="hidden" borderWidth={1} borderColor="#FFD166" borderRadius="lg">
-      
-
-      <Stack p={4} spacing={4} flex={1} justifyContent="space-between">
-        <CardBody>
+    <Card boxShadow="md" borderRadius="lg" width="100%">
+      <Stack direction="row" alignItems="center" justifyContent="start" spacing={4} p={4}>
+        <div style={{ width: "150px", height: "150px", borderRadius: "50%", overflow: "hidden" }}>
           <Image
             objectFit="cover"
             src={image}
-            alt="Class Lessons"
-            borderRadius="full"
-            mx="auto"
-            mb={4}
+            alt="Instructor Details"
+            style={{ width: "100%", height: "100%" }}
           />
-          <div className="text-center">
-          <Heading size="lg">{name}</Heading>
-          <Text py="2">Email: {email}</Text>
-          <Text py="2">Total Classes: {totalClasses}</Text>
-          <Text py="2">Total Students: {totalStudents}</Text>
-          <Button>
-            View Details
-          </Button>
-          </div>
-        </CardBody>
+        </div>
+        <div className="space-y-2">
+          <Heading fontSize="25px">{name}</Heading>
+          <Text>Total Classes: {totalClasses}</Text>
+        </div>
       </Stack>
     </Card>
   );
