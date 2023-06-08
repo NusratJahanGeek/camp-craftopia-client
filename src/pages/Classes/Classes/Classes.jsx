@@ -13,7 +13,7 @@ const Classes = () => {
         <title>Camp Craftopia | Classes</title>
       </Helmet>
       <Banner image={bannerImg} title="Our Arts & Crafts Classes"></Banner>
-      <div className="grid md:grid-cols-3 gap-6 p-12">
+      <div className="grid md:grid-cols-3 gap-6 p-12 my-20">
         {classes.map((classData) => (
          
              <Card className="grid md:grid-cols-2 items-center justify-center" key={classData._id}>

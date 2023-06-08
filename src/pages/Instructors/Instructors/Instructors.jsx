@@ -3,12 +3,21 @@ import { Heading, Text, Button } from "@chakra-ui/react";
 import Banner from "../../Shared/Banner/Banner";
 import bannerImg from "../../../assets/Banner1.jpg";
 import useInstructorData from "../../../hooks/useInstructorData";
+import background from "../../../assets/background7.png";
 
 const Instructors = () => {
   const instructorData = useInstructorData();
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        minHeight: "100vh",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+      }}
+    >
       <Helmet>
         <title>Camp Craftopia | Instructors</title>
       </Helmet>
