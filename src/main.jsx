@@ -10,6 +10,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import "sweetalert2/dist/sweetalert2.css";
 
 const queryClient = new QueryClient()
 

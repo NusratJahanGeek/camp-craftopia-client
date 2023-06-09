@@ -4,6 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 ::selection {
     color: #FF6B6B; /* Replace with your desired color */
     background-color: #fff; /* Replace with your desired background color */

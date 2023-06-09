@@ -24,10 +24,12 @@ import {
   import { useContext } from "react";
   import { AuthContext } from "../providers/AuthProvider";
   import { FaArrowLeft, FaBookmark, FaCartPlus, FaLaptop, FaTachometerAlt } from "react-icons/fa";
+import useBookings from "../hooks/useBookings";
  
   
   const Dashboard = () => {
     const { user, logOut } = useContext(AuthContext);
+    const [bookings] = useBookings();
     const { isOpen, onOpen, onClose } = useDisclosure();
   
     const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -150,37 +152,7 @@ import {
               </Flex>
             </DrawerHeader>
             <DrawerBody>
-              <VStack spacing={12} align="flex-start" pt={12} px={8}>
-              {/*   <Text as={NavLink} to="/">
-                  <Tooltip label="Home" placement="bottom" hasArrow bg='gray.300' color='black' fontSize='md'>
-                    <IconButton
-                      aria-label="Home"
-                      icon={<FaHome />}
-                      mr={5}
-                    />
-                  </Tooltip>
-                  Home
-                </Text>
-                <Text as={NavLink} to="/instructors">
-                  <Tooltip label="Instructors" placement="top" hasArrow bg='gray.300' color='black' fontSize='md'>
-                    <IconButton
-                      aria-label="Instructors"
-                      icon={<FaChalkboardTeacher />}
-                      mr={5}
-                    />
-                  </Tooltip>
-                  Instructors
-                </Text>
-                <Text as={NavLink} to="/classes">
-                  <Tooltip label="Classes" placement="top" hasArrow bg='gray.300' color='black' fontSize='md'>
-                    <IconButton
-                      aria-label="Classes"
-                      icon={<FaBook />}
-                      mr={5}
-                    />
-                  </Tooltip>
-                  Classes
-                </Text> */}
+              <VStack spacing={12} align="flex-start" pt={12}>
                 <Text as={NavLink} to="/dashboard/student">
                     <IconButton
                       aria-label="Dashboard"
@@ -190,13 +162,19 @@ import {
                   Dashboard
                 </Text>
                 <Text as={NavLink} to="/dashboard/selected-classes">
-                    <IconButton
-                      aria-label="My Selected Classes"
-                      icon={<FaBookmark />}
-                      mr={5}
-                    />
-                  My Selected Classes
-                </Text>
+  <Flex alignItems="center">
+    <IconButton
+      aria-label="My Selected Classes"
+      icon={<FaBookmark />}
+      mr={5}
+    />
+    <Text>My Selected Classes</Text>
+    <Badge colorScheme="orange" ml={2} py={1}>
+      + {bookings?.length || 0}
+    </Badge>
+  </Flex>
+</Text>
+
                 <Text as={NavLink} to="/dashboard/student/enrolled-classes">
                     <IconButton
                       aria-label="My Enrolled Classes"
