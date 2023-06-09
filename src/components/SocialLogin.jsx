@@ -1,11 +1,11 @@
 import { Button, Tooltip, useToast } from "@chakra-ui/react";
 import { useContext } from "react";
-import { FaFacebook, FaGoogle, FaTwitter } from "react-icons/fa";
+import { FaGoogle, FaTwitter } from "react-icons/fa";
 import { AuthContext } from "../providers/AuthProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
-  const { googleSignIn, facebookSignIn, twitterSignIn } = useContext(AuthContext);
+  const { googleSignIn, twitterSignIn } = useContext(AuthContext);
   const toast = useToast();
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,33 +17,6 @@ const SocialLogin = () => {
     .then(result => {
       const loggedInUser = result.user;
       console.log(loggedInUser);
-      const savedUser = { name: loggedInUser.displayName, email: loggedInUser.email, photo: loggedInUser.photoURL }
-      fetch('http://localhost:5000/users', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(savedUser)
-      })
-      .then(res => res.json())
-      .then(() => {
-          toast({
-            title: "YAY, you're in!",
-            description: "You've Logged In Successfully!",
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-          })
-        }
-      );
-      navigate(from, { replace: true });
-    });
-  };
-
-  const handleFacebookSignIn = () => {
-    facebookSignIn()
-    .then(result => {
-      const loggedInUser = result.user;
       const savedUser = { name: loggedInUser.displayName, email: loggedInUser.email, photo: loggedInUser.photoURL }
       fetch('http://localhost:5000/users', {
         method: 'POST',
@@ -111,22 +84,6 @@ const SocialLogin = () => {
         <FaGoogle />
       </Button>
     </Tooltip>
-    <Tooltip label="Login with Facebook" hasArrow bg='gray.300' color='black' fontSize='md'>
-      <Button onClick={handleFacebookSignIn}
-        variant="outline" marginLeft={4}
-        sx={{
-          border: "2px solid #FF6B6B",
-          color: "#FF6B6B",
-          backgroundColor: "transparent",
-          "&:hover": {
-            backgroundColor: "#FF6B6B",
-            color: "white",
-          },
-        }}
-      >
-        <FaFacebook />
-      </Button>
-      </Tooltip>
     <Tooltip label="Login with Twitter" hasArrow bg='gray.300' color='black' fontSize='md'>
       <Button onClick={handleTwitterSignIn}
         variant="outline" marginLeft={4}

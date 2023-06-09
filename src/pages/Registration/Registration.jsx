@@ -151,13 +151,13 @@ const Registration = () => {
               render={({ field }) => (
                 <RadioGroup {...field}>
                   <Stack spacing={5} direction="row">
-                    <Radio value="male" colorScheme="teal">
+                    <Radio value="Male" colorScheme="teal">
                       Male
                     </Radio>
-                    <Radio value="female" colorScheme="teal">
+                    <Radio value="Female" colorScheme="teal">
                       Female
                     </Radio>
-                    <Radio value="other" colorScheme="teal">
+                    <Radio value="Other" colorScheme="teal">
                       Other
                     </Radio>
                   </Stack>

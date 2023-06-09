@@ -61,7 +61,8 @@ const SelectedClasses = () => {
   };
 
   return (
-    <Box pt={150} pb={20} pl={isDesktop && isOpen ? "250px" : 0} transition="padding-left 0.3s ease" textAlign="center" backgroundImage={`url(${DashboardBackground})`} backgroundSize="cover" height="full">
+    <Box pt={150} pb={20} pl={isDesktop && isOpen ? "250px" : 0} transition="padding-left 0.3s ease" textAlign="center" backgroundImage={`url(${DashboardBackground})`} backgroundSize="cover" height={bookings.length < 5 ? "100vh" : "full"}
+    >
       <Helmet>
         <title>Camp Craftopia | Selected Classes</title>
       </Helmet>

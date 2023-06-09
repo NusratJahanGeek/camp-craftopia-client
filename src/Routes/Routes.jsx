@@ -12,6 +12,9 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Layout/Dashboard";
 import SelectedClasses from "../pages/Dashboard/Student/SelectedClasses";
 import StudentDashboard from "../pages/Dashboard/Student/StudentDashboard";
+import AdminDashboard from "../pages/Dashboard/Admin/AdminDashboard";
+import ManageClasses from "../pages/Dashboard/Admin/ManageClasses";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 
   export const router = createBrowserRouter([
     {
@@ -55,6 +58,18 @@ import StudentDashboard from "../pages/Dashboard/Student/StudentDashboard";
         {
           path: 'selected-classes',
           element: <PrivateRoute><SelectedClasses></SelectedClasses></PrivateRoute>
+        },
+        {
+          path: 'admin',
+          element: <PrivateRoute><AdminDashboard></AdminDashboard></PrivateRoute>
+        },
+        {
+          path: 'manage-classes',
+          element: <PrivateRoute><ManageClasses></ManageClasses></PrivateRoute>
+        },
+        {
+          path: 'manage-users',
+          element: <PrivateRoute><ManageUsers></ManageUsers></PrivateRoute>
         }
       ]
     }

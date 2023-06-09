@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { FacebookAuthProvider, GoogleAuthProvider, TwitterAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { GoogleAuthProvider, TwitterAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 
 export const AuthContext = createContext(null);
@@ -10,7 +10,6 @@ const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
 
     const googleProvider = new GoogleAuthProvider();
-    const facebookProvider = new FacebookAuthProvider();
     const twitterProvider = new TwitterAuthProvider();
 
     const createUser = (email, password) => {
@@ -26,11 +25,6 @@ const AuthProvider = ({children}) => {
     const googleSignIn = () => {
         setLoading(true);
         return signInWithPopup(auth, googleProvider);
-    }
-
-    const facebookSignIn = () => {
-        setLoading(true);
-        return signInWithPopup(auth, facebookProvider);
     }
 
     const twitterSignIn = () => {
@@ -66,7 +60,6 @@ const AuthProvider = ({children}) => {
         createUser,
         signIn,
         googleSignIn,
-        facebookSignIn,
         twitterSignIn,
         user,
         updateUserProfile,
