@@ -46,15 +46,15 @@ import StudentDashboard from "../pages/Dashboard/Student/StudentDashboard";
     },
     {
       path: 'dashboard',
-      element: <Dashboard></Dashboard>,
+      element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
       children: [
         {
           path: 'student',
-          element: <StudentDashboard></StudentDashboard>
+          element: <PrivateRoute><StudentDashboard></StudentDashboard></PrivateRoute>
         },
         {
           path: 'selected-classes',
-          element: <SelectedClasses></SelectedClasses>
+          element: <PrivateRoute><SelectedClasses></SelectedClasses></PrivateRoute>
         }
       ]
     }

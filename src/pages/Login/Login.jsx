@@ -6,6 +6,7 @@ import SectionTitle from "../../components/SectionTitle";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import SocialLogin from "../../components/SocialLogin";
 
 const Login = () => {
   const formRef = useRef(null);
@@ -92,6 +93,7 @@ const Login = () => {
               <Link to="/register" className="text-[#FF6B6B]">
                 Create A New Account.
               </Link>
+              <SocialLogin></SocialLogin>
             </Text>
           </div>
         </FormControl>

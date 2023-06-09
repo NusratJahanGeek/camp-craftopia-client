@@ -107,7 +107,7 @@ const SelectedClasses = () => {
                 </Td>
                 <Td textAlign="center">{classData.availableSeats}</Td>
                 <Td>{classData.instructor}</Td>
-                <Td textAlign="center">{classData.price}</Td>
+                <Td textAlign="center">${classData.price}</Td>
                 <Td>
                   <Button onClick={() => handleDelete(classData)} textTransform="uppercase">
                     <FaTrash />

@@ -5,6 +5,7 @@ import { Button, FormControl, FormLabel, Input, Radio, RadioGroup, Stack, Text, 
 import SectionTitle from "../../components/SectionTitle";
 import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../providers/AuthProvider";
+import SocialLogin from "../../components/SocialLogin";
 
 const Registration = () => {
   const formRef = useRef(null);
@@ -13,26 +14,37 @@ const Registration = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
   const toast = useToast();
-
   const password = useRef({});
   password.current = watch("password", "");
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data)
     createUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
       console.log(loggedUser);
       updateUserProfile(data.name, data.photoURL)
         .then(() => {
-          console.log("User Profile Updated");
-          reset();
-          toast({
-            title: "YAY, you're in!",
-            description: "Your Account Has Been Created Successfully!",
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
+          const savedUser = { name: data.name, email: data.email, photo: data.photoURL, phone: data.phoneNumber, address: data.address, gender: data.gender }
+          fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify(savedUser)
           })
+          .then(res => res.json())
+          .then(data => {
+            if(data.insertedId) {
+              reset();
+              toast({
+                title: "YAY, you're in!",
+                description: "Your Account Has Been Created Successfully!",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+              })
+            }
+          })   
           navigate("/");
         })
         .catch((error) => console.log(error));
@@ -179,12 +191,14 @@ const Registration = () => {
           <Button type="submit" size="lg" width="40%" marginTop={4}>
             Register
           </Button>
+         
           <Text marginTop={8}>
             Already Have An Account?{" "}
             <Link to="/login" className="text-[#FF6B6B]">
               Click Here To Login.
             </Link>
           </Text>
+          <SocialLogin></SocialLogin>
         </div>
       </form>
     </div>
