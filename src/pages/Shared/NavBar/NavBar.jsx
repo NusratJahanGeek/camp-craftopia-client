@@ -10,15 +10,24 @@ import {
   Text,
   useBreakpointValue,
   Button,
+  Wrap,
+  WrapItem,
+  Avatar,
+  AvatarBadge,
+  Badge,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import logo from "../../../assets/Camp Craftopia.png";
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
+import { AiOutlineUser } from 'react-icons/ai';
+import useBookings from "../../../hooks/useBookings";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [bookings] = useBookings();
+
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const mxValue = useBreakpointValue({ base: 0, lg: 84 });
 
@@ -44,9 +53,26 @@ const NavBar = () => {
       <Text as={Link} to="/dashboard" mx={5}>
         Dashboard
       </Text>
+      <Text as={Link} to="/" mr={5}>Selected
+      <Badge mt='-1' ml='1' fontSize='0.9em' colorScheme='green'>
+    +{bookings?.length || 0}
+      </Badge>
+      </Text>
 
       {user ? (
         <>
+            
+            <Wrap marginRight={5}>
+            <WrapItem>
+    <Avatar size='sm' name={user?.displayName} src={user?.photoURL} bg='#FF6B6B' icon={<AiOutlineUser fontSize='1.5rem' />}> <AvatarBadge boxSize='1.25em' bg='green.500' />
+    
+    </Avatar>
+    <Badge ml='-2' mt='-2' zIndex={1} colorScheme='orange'>
+    {user?.displayName}
+      </Badge>
+  </WrapItem>
+            </Wrap>
+           
             <Button onClick={handleLogOut}>Log Out</Button>
         </>
       ) : (

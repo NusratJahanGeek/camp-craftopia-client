@@ -1,11 +1,63 @@
 import { Helmet } from "react-helmet-async"
 import Banner from "../../Shared/Banner/Banner";
 import bannerImg from "../../../assets/Banner2.jpg";
-import { Button, Card, Heading, Text } from "@chakra-ui/react";
+import { Button, Card, Heading, Text, useToast } from "@chakra-ui/react";
 import useClasses from "../../../hooks/useClasses";
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import useBookings from "../../../hooks/useBookings";
 
 const Classes = () => {
     const [classes] = useClasses();
+    const { user } = useContext(AuthContext);
+    const [, refetch] = useBookings();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const toast = useToast();
+
+    const handleSelectedClasses = classData => {
+      if(user) {
+        const bookingItem = {classId: classData._id, name: classData.name, image: classData.image, price: classData.price, totalStudents: classData.totalStudents, instructor: classData.instructor, availableSeats: classData.availableSeats, email: user.email, userName: user.displayName};
+        console.log(bookingItem)
+      fetch('http://localhost:5000/bookings', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(bookingItem)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.insertedId){
+          refetch();
+          toast({
+            title: "YAY, you've got it!",
+            description: "Class Selected Successfully",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+      })
+      }
+      else{
+        Swal.fire({
+          title: 'Booking Failed!',
+          text: "You need to login first to select the class!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Login'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/login', {state: {from: location}});
+          }
+        })
+      }
+    }
 
     return (
         <div>
@@ -29,7 +81,7 @@ const Classes = () => {
              <Text fontSize="lg">|</Text>
               <Text fontSize="lg">Total Students: {classData.totalStudents}</Text>
              </div>
-              <Button>Select Class</Button>
+              <Button onClick={() => handleSelectedClasses(classData)}>Select Class</Button>
             </div>
           </Card>
         ))}

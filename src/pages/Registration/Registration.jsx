@@ -1,33 +1,50 @@
 import { Controller, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useRef } from "react";
-import { Button, FormControl, FormLabel, Input, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
-
+import { Button, FormControl, FormLabel, Input, Radio, RadioGroup, Stack, Text, useToast } from "@chakra-ui/react";
 import SectionTitle from "../../components/SectionTitle";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const Registration = () => {
-    const formRef = useRef(null);
-    const { control, register, handleSubmit, formState: { errors } } = useForm();
-    const { createUser } = useContext(AuthContext);
+  const formRef = useRef(null);
+  const { control, register, handleSubmit, reset, formState: { errors }, watch } = useForm({  defaultValues: { password: "", confirmPassword: "" } });
+
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const password = useRef({});
+  password.current = watch("password", "");
 
   const onSubmit = (data) => {
     console.log(data);
-    createUser(data.email, data.password)
-    .then(result => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
-    })
+    createUser(data.email, data.password).then((result) => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
+      updateUserProfile(data.name, data.photoURL)
+        .then(() => {
+          console.log("User Profile Updated");
+          reset();
+          toast({
+            title: "YAY, you're in!",
+            description: "Your Account Has Been Created Successfully!",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+          navigate("/");
+        })
+        .catch((error) => console.log(error));
+    });
   };
-  
+
   return (
     <div className="mx-auto my-5 mb-24 px-4 md:px-4 lg:px-80">
-         <Helmet>
+      <Helmet>
         <title>Camp Craftopia | Register</title>
       </Helmet>
-         <SectionTitle heading="Register" subHeading="Create A New Account" />
-    
+      <SectionTitle heading="Register" subHeading="Create A New Account" />
 
       <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
         <Stack direction="row" spacing={8} marginBottom={4}>
@@ -39,7 +56,9 @@ const Registration = () => {
               {...register("name", { required: true })}
               focusBorderColor="#FFD9EC"
             />
-            {errors.name && <span className="text-red-600">Name is required</span>}
+            {errors.name && (
+              <span className="text-red-600">Name is required</span>
+            )}
           </FormControl>
           <FormControl width="50%" className="space-y-2">
             <FormLabel>Email</FormLabel>
@@ -49,7 +68,9 @@ const Registration = () => {
               {...register("email", { required: true })}
               focusBorderColor="#FFD9EC"
             />
-            {errors.email && <span className="text-red-600">Email is required</span>}
+            {errors.email && (
+              <span className="text-red-600">Email is required</span>
+            )}
           </FormControl>
         </Stack>
         <Stack direction="row" spacing={8} marginBottom={4}>
@@ -58,24 +79,43 @@ const Registration = () => {
             <Input
               name="password"
               type="password"
-              {...register("password", { required: true, minLength: 6,
-            pattern: /(?=.*[A-Z])(?=.*[!@#$&*]).{6}/
-        })}
+              {...register("password", {
+                required: true,
+                minLength: 6,
+                pattern: /(?=.*[A-Z])(?=.*[!@#$&*]).{6}/,
+              })}
               focusBorderColor="#FFD9EC"
             />
-            {errors.password?.type === "required" && <span className="text-red-600">Password is required</span>}
-            {errors.password?.type === "minLength" && <span className="text-red-600">Password must be minimum 6 characters long</span>}
-            {errors.password?.type === "pattern" && <span className="text-red-600">Password must have one uppercase and one special character</span>}
+            {errors.password?.type === "required" && (
+              <span className="text-red-600">Password is required</span>
+            )}
+            {errors.password?.type === "minLength" && (
+              <span className="text-red-600">
+                Password must be minimum 6 characters long
+              </span>
+            )}
+            {errors.password?.type === "pattern" && (
+              <span className="text-red-600">
+                Password must have one uppercase and one special character
+              </span>
+            )}
           </FormControl>
           <FormControl width="50%" className="space-y-2">
             <FormLabel>Confirm Password</FormLabel>
             <Input
               name="confirmPassword"
               type="password"
-              {...register("confirmPassword", { required: true })}
+              {...register("confirmPassword", {
+                required: true,
+                validate: (value) => value === password.current,
+              })}
               focusBorderColor="#FFD9EC"
             />
-            {errors.confirmPassword && <span className="text-red-600">Please Type The Password Again</span>}
+            {errors.confirmPassword && (
+              <span className="text-red-600">
+                Passwords do not match. Please type it again.
+              </span>
+            )}
           </FormControl>
         </Stack>
         <Stack direction="row" spacing={8} marginBottom={4}>
@@ -87,41 +127,51 @@ const Registration = () => {
               {...register("photoURL", { required: true })}
               focusBorderColor="#FFD9EC"
             />
-            {errors.photoURL && <span className="text-red-600">Photo URL is required</span>}
+            {errors.photoURL && (
+              <span className="text-red-600">Photo URL is required</span>
+            )}
           </FormControl>
-          <FormControl width="50%" className="space-y-2">
-      <FormLabel>Gender</FormLabel>
-      <Controller
-        name="gender"
-        control={control}
-       
-        render={({ field }) => (
-          <RadioGroup {...field}>
-            <Stack spacing={5} direction="row">
-              <Radio value="male" colorScheme="teal">
-                Male
-              </Radio>
-              <Radio value="female" colorScheme="teal">
-                Female
-              </Radio>
-              <Radio value="other" colorScheme="teal">
-                Other
-              </Radio>
-            </Stack>
-          </RadioGroup>
-        )}
-      />
-    </FormControl>
-
+          <FormControl width="50%">
+            <FormLabel>Gender</FormLabel>
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field }) => (
+                <RadioGroup {...field}>
+                  <Stack spacing={5} direction="row">
+                    <Radio value="male" colorScheme="teal">
+                      Male
+                    </Radio>
+                    <Radio value="female" colorScheme="teal">
+                      Female
+                    </Radio>
+                    <Radio value="other" colorScheme="teal">
+                      Other
+                    </Radio>
+                  </Stack>
+                </RadioGroup>
+              )}
+            />
+          </FormControl>
         </Stack>
         <Stack direction="row" spacing={8} marginBottom={4}>
           <FormControl width="50%" className="space-y-2">
             <FormLabel>Address</FormLabel>
-            <Input name="address" type="text"  {...register("address")} focusBorderColor="#FFD9EC" />
+            <Input
+              name="address"
+              type="text"
+              {...register("address")}
+              focusBorderColor="#FFD9EC"
+            />
           </FormControl>
           <FormControl width="50%" className="space-y-2">
             <FormLabel>Phone Number</FormLabel>
-            <Input name="phone" type="number"  {...register("phone")} focusBorderColor="#FFD9EC" />
+            <Input
+              name="phoneNumber"
+              type="text"
+              {...register("phoneNumber")}
+              focusBorderColor="#FFD9EC"
+            />
           </FormControl>
         </Stack>
 
@@ -136,7 +186,7 @@ const Registration = () => {
             </Link>
           </Text>
         </div>
-      </form> 
+      </form>
     </div>
   );
 };

@@ -1,13 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import { CSSReset, ChakraProvider, extendTheme } from '@chakra-ui/react'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { CSSReset, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./Routes/Routes.jsx";
+import { HelmetProvider } from "react-helmet-async";
+import AuthProvider from "./providers/AuthProvider";
 import {
-  RouterProvider,
-} from "react-router-dom";
-import { router } from './Routes/Routes.jsx'
-import { HelmetProvider } from 'react-helmet-async';
-import AuthProvider from './providers/AuthProvider';
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient()
 
 const customTheme = extendTheme({
   fonts: {
@@ -28,21 +32,23 @@ const customTheme = extendTheme({
           _hover: {
             bg: "#ff4c4c",
           },
-        }
+        },
       },
-    }
-  }
+    },
+  },
 });
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider theme={customTheme}>
-  <CSSReset global />
-   <HelmetProvider>
-   <AuthProvider>
-   <React.StrictMode>
-   <RouterProvider router={router} />
-  </React.StrictMode>
-   </AuthProvider>
-   </HelmetProvider>
- </ChakraProvider>
-)
+    <CSSReset global />
+    <React.StrictMode>
+      <AuthProvider>
+        <HelmetProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </HelmetProvider>
+      </AuthProvider>
+    </React.StrictMode>
+  </ChakraProvider>
+);
