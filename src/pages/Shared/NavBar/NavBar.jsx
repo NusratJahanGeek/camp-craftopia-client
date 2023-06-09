@@ -16,7 +16,7 @@ import {
   AvatarBadge,
   Badge,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import logo from "../../../assets/Camp Craftopia.png";
 import { useContext } from "react";
@@ -38,22 +38,22 @@ const NavBar = () => {
   }
   const navOptions = (
     <Center fontSize="lg">
-      <Text as={Link} to="/">
+      <Text as={NavLink} to="/">
         Home
       </Text>
-      <Text as={Link} to="/about" mx={5}>
+      <Text as={NavLink} to="/about" mx={5}>
         About
       </Text>
-      <Text as={Link} to="/instructors" mx={5}>
+      <Text as={NavLink} to="/instructors" mx={5}>
         Instructors
       </Text>
-      <Text as={Link} to="/classes" mx={5}>
+      <Text as={NavLink} to="/classes" mx={5}>
         Classes
       </Text>
-      <Text as={Link} to="/dashboard" mx={5}>
+      <Text as={NavLink} to="/dashboard" mx={5}>
         Dashboard
       </Text>
-      <Text as={Link} to="/" mr={5}>Selected
+      <Text as={NavLink} to="/dashboard/student/selected-classes" mr={5}>Selected
       <Badge mt='-1' ml='1' fontSize='0.9em' colorScheme='green'>
     +{bookings?.length || 0}
       </Badge>
@@ -77,7 +77,7 @@ const NavBar = () => {
         </>
       ) : (
         <>
-          <Text as={Link} to="/login" mx={5}>
+          <Text as={NavLink} to="/login" mx={5}>
             Login
           </Text>
         </>

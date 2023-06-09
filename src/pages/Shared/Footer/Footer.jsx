@@ -50,7 +50,7 @@ const Footer = () => {
         </Grid>
       </Box>
       <Box align="center">
-        <Text>
+        <Text marginBottom={4}>
           &copy; {new Date().getFullYear()} Camp Craftopia
         </Text>
       </Box>

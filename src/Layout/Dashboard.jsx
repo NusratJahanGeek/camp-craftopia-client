@@ -10,31 +10,27 @@ import {
     DrawerHeader,
     DrawerBody,
     Drawer,
-    Menu,
-    MenuList,
-    MenuItem,
     Avatar,
     Wrap,
     WrapItem,
     AvatarBadge,
-    Center,
     IconButton,
     Tooltip,
-    VStack, // Add this import
+    VStack,
   } from "@chakra-ui/react";
-  import { Link } from "react-router-dom";
-  import { HamburgerIcon } from "@chakra-ui/icons";
+  import { NavLink, Outlet } from "react-router-dom";
+  import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
   import { AiOutlineUser } from "react-icons/ai";
   import { useContext } from "react";
   import { AuthContext } from "../providers/AuthProvider";
-import { FaHome } from "react-icons/fa";
+  import { FaArrowLeft, FaBookmark, FaCartPlus, FaLaptop, FaTachometerAlt } from "react-icons/fa";
+ 
   
   const Dashboard = () => {
     const { user, logOut } = useContext(AuthContext);
     const { isOpen, onOpen, onClose } = useDisclosure();
   
     const isDesktop = useBreakpointValue({ base: false, md: true });
-    const mxValue = useBreakpointValue({ base: 0, lg: 84 });
   
     const handleLogOut = () => {
       logOut()
@@ -66,8 +62,8 @@ import { FaHome } from "react-icons/fa";
           </>
         ) : (
           <>
-            <Text as={Link} to="/login" mx={5}>
-              Login
+            <Text as={NavLink} to="/login" mx={5}>
+              s
             </Text>
           </>
         )}
@@ -75,12 +71,27 @@ import { FaHome } from "react-icons/fa";
     );
   
     return (
-      <div>
-        <Flex bg="#FFD9EC" color="#000" py={4} justify="space-between" px={4}>
+        <div>
+        <Flex
+        bg="#FFD9EC"
+        color="#000"
+        py={4}
+        justify="space-between"
+        px={4}
+        position="fixed"
+        top={0}
+        left={0}
+        right={0}
+        zIndex={999}
+      >
           {isDesktop ? (
             <>
-              <Flex mr={4}>
-                <Tooltip label="Menu" placement="left" hasArrow>
+              <Flex mr={4}   transform={
+          isDesktop && isOpen ? "translateX(330px)" : "translateX(0)"
+        }
+       
+        transition="transform 0.3s ease">
+                <Tooltip label="Menu" placement="left" hasArrow bg='gray.300' color='black' fontSize='md'>
                   <IconButton
                     aria-label="Menu"
                     icon={<HamburgerIcon />}
@@ -92,9 +103,9 @@ import { FaHome } from "react-icons/fa";
             </>
           ) : (
             <>
-              <Box>{topMenu}</Box>
+             
               <Flex ml={4}>
-                <Tooltip label="Menu" placement="right" hasArrow>
+                <Tooltip label="Menu" placement="right" hasArrow bg='gray.300' color='black' fontSize='md'>
                   <IconButton
                     aria-label="Menu"
                     icon={<HamburgerIcon />}
@@ -102,47 +113,111 @@ import { FaHome } from "react-icons/fa";
                   />
                 </Tooltip>
               </Flex>
+              <Box>{topMenu}</Box>
             </>
           )}
         </Flex>
   
         <Drawer
-          placement="left"
-          onClose={onClose}
-          isOpen={isOpen}
-          initialFocusRef={null}
-        >
+        placement="left"
+        isOpen={isOpen}
+        initialFocusRef={null}
+        onClose={() => {
+          onClose();
+          if (isDesktop) {
+            window.scrollTo(0, 0);
+          }
+        }}
+      >   
           <DrawerContent>
+            <DrawerHeader>
+              <Flex justify="space-between" align="center">
+              <Text fontSize="16px" fontWeight="semibold" as={NavLink} to="/">
+                    <IconButton
+                      aria-label="Home"
+                      icon={<FaArrowLeft />}
+                      mr={2}
+                    />
+                 Back To Home
+                </Text>
+              <Tooltip label="Close" placement="bottom" hasArrow bg='gray.300' color='black' fontSize='md'>
+                <IconButton
+                  aria-label="Close"
+                  icon={<CloseIcon />}
+                  onClick={onClose}
+                />
+                </Tooltip>
+              </Flex>
+            </DrawerHeader>
             <DrawerBody>
-              <VStack spacing={4} align="flex-start" pt={4} px={4}>
-                <Text as={Link} to="/">
-                <Tooltip label="Home" placement="right" hasArrow>
-                          <IconButton
-                            aria-label="Home"
-                            icon={<FaHome />}
-                            mr={2}
-                          />
-                        </Tooltip>
-                     
+              <VStack spacing={12} align="flex-start" pt={12} px={8}>
+              {/*   <Text as={NavLink} to="/">
+                  <Tooltip label="Home" placement="bottom" hasArrow bg='gray.300' color='black' fontSize='md'>
+                    <IconButton
+                      aria-label="Home"
+                      icon={<FaHome />}
+                      mr={5}
+                    />
+                  </Tooltip>
+                  Home
                 </Text>
-                <Text as={Link} to="/about">
-                  About
-                </Text>
-                
-
-                <Text as={Link} to="/instructors">
+                <Text as={NavLink} to="/instructors">
+                  <Tooltip label="Instructors" placement="top" hasArrow bg='gray.300' color='black' fontSize='md'>
+                    <IconButton
+                      aria-label="Instructors"
+                      icon={<FaChalkboardTeacher />}
+                      mr={5}
+                    />
+                  </Tooltip>
                   Instructors
                 </Text>
-                <Text as={Link} to="/classes">
+                <Text as={NavLink} to="/classes">
+                  <Tooltip label="Classes" placement="top" hasArrow bg='gray.300' color='black' fontSize='md'>
+                    <IconButton
+                      aria-label="Classes"
+                      icon={<FaBook />}
+                      mr={5}
+                    />
+                  </Tooltip>
                   Classes
-                </Text>
-                <Text as={Link} to="/dashboard">
+                </Text> */}
+                <Text as={NavLink} to="/dashboard/student">
+                    <IconButton
+                      aria-label="Dashboard"
+                      icon={<FaTachometerAlt />}
+                      mr={5}
+                    />
                   Dashboard
+                </Text>
+                <Text as={NavLink} to="/dashboard/selected-classes">
+                    <IconButton
+                      aria-label="My Selected Classes"
+                      icon={<FaBookmark />}
+                      mr={5}
+                    />
+                  My Selected Classes
+                </Text>
+                <Text as={NavLink} to="/dashboard/student/enrolled-classes">
+                    <IconButton
+                      aria-label="My Enrolled Classes"
+                      icon={<FaLaptop />}
+                      mr={5}
+                    />
+                  My Enrolled Classes
+                </Text>
+                <Text as={NavLink} to="/dashboard/student/payment-history">
+                    <IconButton
+                      aria-label="Payment History"
+                      icon={<FaCartPlus />}
+                      mr={5}
+                    />
+                  Payment History
                 </Text>
               </VStack>
             </DrawerBody>
           </DrawerContent>
         </Drawer>
+        <Outlet></Outlet>
       </div>
     );
   };

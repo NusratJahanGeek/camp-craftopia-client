@@ -3,7 +3,7 @@ import { Heading, Text, Button } from "@chakra-ui/react";
 import Banner from "../../Shared/Banner/Banner";
 import bannerImg from "../../../assets/Banner1.jpg";
 import useInstructorData from "../../../hooks/useInstructorData";
-import background from "../../../assets/background7.png";
+import background from "../../../assets/DashboardBackground.png";
 
 const Instructors = () => {
   const instructorData = useInstructorData();

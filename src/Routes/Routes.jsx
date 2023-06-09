@@ -11,6 +11,7 @@ import Secret from "../pages/Secret/Secret";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Layout/Dashboard";
 import SelectedClasses from "../pages/Dashboard/Student/SelectedClasses";
+import StudentDashboard from "../pages/Dashboard/Student/StudentDashboard";
 
   export const router = createBrowserRouter([
     {
@@ -44,11 +45,15 @@ import SelectedClasses from "../pages/Dashboard/Student/SelectedClasses";
       ]
     },
     {
-      path: '/dashboard',
+      path: 'dashboard',
       element: <Dashboard></Dashboard>,
       children: [
         {
-          path: '/dashboard/selected-classes',
+          path: 'student',
+          element: <StudentDashboard></StudentDashboard>
+        },
+        {
+          path: 'selected-classes',
           element: <SelectedClasses></SelectedClasses>
         }
       ]
