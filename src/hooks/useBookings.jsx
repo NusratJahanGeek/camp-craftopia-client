@@ -11,7 +11,7 @@ const useBookings = () => {
         queryKey: ['bookings', user?.email],
         enabled: !loading,
         queryFn: async () => {
-            const res = await axiosSecure(`/bookings?email=${user.email}`)
+            const res = await axiosSecure.get(`/bookings?email=${user.email}`)
             console.log('res from axios', res)
             return res.data;
         },

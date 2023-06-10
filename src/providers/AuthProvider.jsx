@@ -13,28 +13,6 @@ const AuthProvider = ({children}) => {
     const googleProvider = new GoogleAuthProvider();
     const twitterProvider = new TwitterAuthProvider();
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser);
-            console.log('Current User', currentUser);
-
-            if(currentUser){
-                axios.post('http://localhost:5000/jwt', {email: currentUser.email})
-                .then(data => {
-                    localStorage.setItem('access-token', data.data.token)
-                    setLoading(false);
-                })
-            }
-            else{
-                localStorage.removeItem('access-token')
-            }
-
-        });
-        return () => {
-            return unsubscribe();
-        }
-    }, [])
-
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -67,6 +45,28 @@ const AuthProvider = ({children}) => {
         })
       
     };
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+            setUser(currentUser);
+            console.log('Current User', currentUser);
+
+            if(currentUser){
+                axios.post('http://localhost:5000/jwt', {email: currentUser.email})
+                .then(data => {
+                    localStorage.setItem('access-token', data.data.token)
+                    setLoading(false);
+                })
+            }
+            else{
+                localStorage.removeItem('access-token')
+            }
+
+        });
+        return () => {
+            return unsubscribe();
+        }
+    }, [])
       
     const authInfo = {
         createUser,

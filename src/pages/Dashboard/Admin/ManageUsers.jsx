@@ -1,29 +1,20 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tooltip,
-  Tr,
-  useBreakpointValue,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { Avatar, Box, Button, Flex, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tooltip, Tr, useBreakpointValue, useDisclosure, useToast, Center, CircularProgress } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import DashboardBackground from "../../../assets/DashboardBackground.png";
 import { FaChalkboardTeacher, FaTrash, FaUser, FaUserLock } from "react-icons/fa";
-import useUsers from "../../../hooks/useUsers";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ManageUsers = () => {
-  const [users, refetch] = useUsers();
+  const [axiosSecure] = useAxiosSecure();
+  const {data: users = [], refetch} = useQuery(['users'], async() => {
+      const res = await axiosSecure.get('/users')
+      return res.data;
+  });
+
+  console.log(users);
+  
   const { isOpen } = useDisclosure();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   const toast = useToast();
@@ -171,7 +162,7 @@ const ManageUsers = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {users.map((user, index) => (
+            { users.length > 0 ? (users.map((user, index) => (
               <Tr align="center" key={user._id}>
                 <Td>{index + 1}</Td>
                 <Td textAlign="center">
@@ -217,7 +208,13 @@ const ManageUsers = () => {
                   </Button>
                 </Td>
               </Tr>
-            ))}
+            ))) : (
+              <Tr>
+              <Td colSpan={8} textAlign="center">
+              <Center marginTop={55} marginBottom={55}><CircularProgress isIndeterminate color="#FF6B6B" /></Center>
+              </Td>
+            </Tr>
+          )}
           </Tbody>
         </Table>
       </TableContainer>

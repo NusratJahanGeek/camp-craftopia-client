@@ -53,7 +53,7 @@ const NavBar = () => {
       <Text as={NavLink} to="/dashboard" mx={5}>
         Dashboard
       </Text>
-      <Text as={NavLink} to="/dashboard/student/selected-classes" mr={5}>Selected
+      <Text as={NavLink} to="/dashboard/selected-classes" mr={5}>Selected
       <Badge mt='-1' ml='1' fontSize='0.9em' colorScheme='green'>
     +{bookings?.length || 0}
       </Badge>

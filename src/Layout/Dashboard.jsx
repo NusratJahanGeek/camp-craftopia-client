@@ -1,36 +1,11 @@
-import {
-  Box,
-  Badge,
-  Button,
-  Flex,
-  Text,
-  useDisclosure,
-  useBreakpointValue,
-  DrawerContent,
-  DrawerHeader,
-  DrawerBody,
-  Drawer,
-  Avatar,
-  Wrap,
-  WrapItem,
-  AvatarBadge,
-  IconButton,
-  Tooltip,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Badge, Button, Flex, Text, useDisclosure,
+  useBreakpointValue, DrawerContent, DrawerHeader, DrawerBody, Drawer, Avatar, Wrap, WrapItem, AvatarBadge, IconButton, Tooltip, VStack } from "@chakra-ui/react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { AiOutlineUser } from "react-icons/ai";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import {
-  FaArrowLeft,
-  FaBookmark,
-  FaCartPlus,
-  FaLaptop,
-  FaPeopleArrows,
-  FaTachometerAlt,
-} from "react-icons/fa";
+import { FaArrowLeft, FaBookmark, FaCartPlus, FaLaptop,  FaPeopleArrows, FaTachometerAlt } from "react-icons/fa";
 import useBookings from "../hooks/useBookings";
 import useUsers from "../hooks/useUsers";
 import useAdmin from "../hooks/useAdmin";
@@ -49,6 +24,16 @@ const Dashboard = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const [initialOpen, setInitialOpen] = useState(false);
+
+  useEffect(() => {
+    setInitialOpen(true);
+  }, []);
+
+  const handleClose = () => {
+    onClose();
+    setInitialOpen(false);
+  };
 
   const handleLogOut = () => {
     logOut()
@@ -154,14 +139,9 @@ const Dashboard = () => {
 
       <Drawer
         placement="left"
-        isOpen={isOpen}
+        isOpen={isOpen || initialOpen}
         initialFocusRef={null}
-        onClose={() => {
-          onClose();
-          if (isDesktop) {
-            window.scrollTo(0, 0);
-          }
-        }}
+        onClose={handleClose}
       >
         <DrawerContent>
           <DrawerHeader>
@@ -178,11 +158,12 @@ const Dashboard = () => {
                 color="black"
                 fontSize="md"
               >
-                <IconButton
-                  aria-label="Close"
-                  icon={<CloseIcon />}
-                  onClick={onClose}
+               <IconButton
+                aria-label="Close"
+                icon={<CloseIcon />}
+                onClick={handleClose}
                 />
+
               </Tooltip>
             </Flex>
           </DrawerHeader>
@@ -219,9 +200,9 @@ const Dashboard = () => {
                         mr={5}
                       />
                       <Text>Manage Users</Text>
-                      <Badge colorScheme="orange" ml={2} py={1}>
+                      { users.length > 0 ? <Badge colorScheme="orange" ml={2} py={1}>
                         + {users?.length || 0}
-                      </Badge>
+                      </Badge> : null}
                     </Flex>
                   </Text>
                 </>
