@@ -18,7 +18,7 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { AiOutlineUser } from "react-icons/ai";
 import { useContext } from "react";
@@ -33,14 +33,18 @@ import {
 } from "react-icons/fa";
 import useBookings from "../hooks/useBookings";
 import useUsers from "../hooks/useUsers";
+import useAdmin from "../hooks/useAdmin";
+import useInstructorDashboard from "../hooks/useInstructorDashboard";
 
 const Dashboard = () => {
   const { user, logOut } = useContext(AuthContext);
   const [bookings] = useBookings();
   const [users] = useUsers();
 
-  //TODO: Load Data from the server to have dynamic isAdmin based on data
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
+  const [isInstructor] = useInstructorDashboard();
+
+  const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -50,6 +54,7 @@ const Dashboard = () => {
     logOut()
       .then(() => {})
       .catch((error) => console.log(error));
+      navigate('/');
   };
 
   const topMenu = (
@@ -183,7 +188,7 @@ const Dashboard = () => {
           </DrawerHeader>
           <DrawerBody>
             <VStack spacing={12} align="flex-start" pt={12}>
-              {isAdmin ? (
+            {isAdmin ? (
                 <>
                   <Text as={NavLink} to="/dashboard/admin">
                     <IconButton
@@ -220,7 +225,40 @@ const Dashboard = () => {
                     </Flex>
                   </Text>
                 </>
-              ) : (
+              ) : isInstructor ? (
+                <>
+                  <Text as={NavLink} to="/dashboard/instructor">
+                    <IconButton
+                      aria-label="Dashboard"
+                      icon={<FaTachometerAlt />}
+                      mr={5}
+                    />
+                    Dashboard
+                  </Text>
+                  <Text as={NavLink} to="/dashboard/add-class">
+                    <Flex alignItems="center">
+                      <IconButton
+                        aria-label="Add A Class"
+                        icon={<FaBookmark />}
+                        mr={5}
+                      />
+                      <Text>Add A Class</Text>
+                      <Badge colorScheme="orange" ml={2} py={1}>
+                        + {bookings?.length || 0}
+                      </Badge>
+                    </Flex>
+                  </Text>
+
+                  <Text as={NavLink} to="/dashboard/student/my-classes">
+                    <IconButton
+                      aria-label="My Classes"
+                      icon={<FaLaptop />}
+                      mr={5}
+                    />
+                    My Classes
+                  </Text>
+                </>
+             ) : (
                 <>
                   <Text as={NavLink} to="/dashboard/student">
                     <IconButton
