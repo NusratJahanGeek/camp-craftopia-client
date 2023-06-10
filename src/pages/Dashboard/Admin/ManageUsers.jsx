@@ -68,8 +68,8 @@ const ManageUsers = () => {
       })
   }
 
-  const handleMakeUser = (user) => {
-    fetch(`http://localhost:5000/users/user/${user._id}`, {
+  const handleMakeStudent = (user) => {
+    fetch(`http://localhost:5000/users/student/${user._id}`, {
       method: 'PATCH'
     })
       .then(res => res.json())
@@ -79,7 +79,7 @@ const ManageUsers = () => {
           refetch();
           toast({
             title: 'User Role Updated!',
-            description: `${user?.name} is a User Now!`,
+            description: `${user?.name} is a Student Now!`,
             status: 'success',
             duration: 9000,
             isClosable: true,
@@ -191,12 +191,12 @@ const ManageUsers = () => {
                   ) : user.role === "instructor" ? (
                     <Tooltip label="Instructor" hasArrow bg='gray.300' color='black' fontSize='md' placement="right">
                     <Button
-                    onClick={() => handleMakeUser(user)}>
+                    onClick={() => handleMakeStudent(user)}>
                     <FaChalkboardTeacher />
                   </Button>
                   </Tooltip>
                   ) : (
-                    <Tooltip label="User" hasArrow bg='gray.300' color='black' fontSize='md' placement="right">
+                    <Tooltip label="Student" hasArrow bg='gray.300' color='black' fontSize='md' placement="right">
                     <Button
                       onClick={() => handleMakeAdmin(user)}>
                      <FaUser />
