@@ -1,56 +1,64 @@
-import Swal from "sweetalert2";
-import { Avatar, Box, Button, Flex, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue, useDisclosure, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useBreakpointValue,
+  useDisclosure,
+} from "@chakra-ui/react";
 import DashboardBackground from "../../../assets/DashboardBackground.png";
 import { Helmet } from "react-helmet-async";
-import useBookings from "../../../hooks/useBookings";
-import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const PaymentHistory = () => {
-  const [bookings, refetch] = useBookings();
-  const toast = useToast();
+  const { user, loading } = useContext(AuthContext);
+  const [axiosSecure] = useAxiosSecure();
+
+  const { data: payments = [] } = useQuery({
+    queryKey: ["payments", user?.email],
+    enabled: !loading,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/payments?email=${user.email}`);
+      return res.data;
+    },
+  });
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
+
+  const sortedPayments = [...payments].sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateB - dateA;
+  });
+
   const { isOpen } = useDisclosure();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
-  const totalPrice = bookings.reduce((sum, classData) => classData.price + sum, 0);
-
-  const handleDelete = (classData) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`http://localhost:5000/bookings/${classData._id}`, {
-          method: "DELETE"
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount > 0) {
-              refetch();
-              toast({
-                title: "Done!",
-                description: "You've successfully deleted the class from your list.",
-                status: "success",
-                duration: 9000,
-                isClosable: true
-              });
-            }
-          });
-      }
-    });
-  };
+  const totalPrice = payments.reduce(
+    (sum, classData) => classData.price + sum,
+    0
+  );
 
   return (
-   <div>
-     <Helmet>
+    <div>
+      <Helmet>
         <title>Camp Craftopia | Selected Classes</title>
       </Helmet>
-      {bookings?.length > 0 ? (
+      {payments?.length > 0 ? (
         <Box
           pt={150}
           pb={20}
@@ -59,26 +67,14 @@ const PaymentHistory = () => {
           textAlign="center"
           backgroundImage={`url(${DashboardBackground})`}
           backgroundSize="cover"
-          height={bookings.length < 5 ? "100vh" : "full"}
+          height={payments.length < 5 ? "100vh" : "full"}
         >
-          <Flex justifyContent="center" alignItems="center" gap={8}>
+          <Box>
             <Text fontSize="3xl" fontWeight="bold">
-              Selected Classes: {bookings.length}
+              Total Paid: ${totalPrice}
             </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              |
-            </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              Total Price: ${totalPrice}
-            </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              |
-            </Text>
-            <Link to="/dashboard/make-payment"><Button fontSize="xl" textTransform="uppercase">
-              Pay Now
-            </Button></Link>
-          </Flex>
-          <TableContainer mt={12} w={["100%", "100%", "65%"]} mx="auto">
+          </Box>
+          <TableContainer mt={12} w={["100%", "100%", "80%"]} mx="auto">
             <Table>
               <Thead fontSize="34px">
                 <Tr>
@@ -86,40 +82,36 @@ const PaymentHistory = () => {
                     #
                   </Th>
                   <Th fontSize="md" textAlign="center">
-                    Class Name
+                    Enrolled Classes
                   </Th>
                   <Th fontSize="md" textAlign="center">
-                    Available Seats
+                    Total Paid
                   </Th>
                   <Th fontSize="md" textAlign="center">
-                    Instructor
+                    Class Status
                   </Th>
                   <Th fontSize="md" textAlign="center">
-                    Price
+                    Transaction Id
                   </Th>
                   <Th fontSize="md" textAlign="center">
-                    Action
+                    Payment Date
                   </Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {bookings.map((classData, index) => (
-                  <Tr align="center" key={classData._id}>
+                {sortedPayments.map((payment, index) => (
+                  <Tr align="center" key={payment._id}>
                     <Td>{index + 1}</Td>
+
                     <Td textAlign="center">
-                      <Flex alignItems="center">
-                        <Avatar name={classData.name} src={classData.image} mr={2} />
-                        {classData.name}
-                      </Flex>
+                      {payment.classNames.map((individualClass, index) => (
+                        <p className="py-1" key={index}>{individualClass}</p>
+                      ))}
                     </Td>
-                    <Td textAlign="center">{classData.availableSeats}</Td>
-                    <Td>{classData.instructor}</Td>
-                    <Td textAlign="center">${classData.price}</Td>
-                    <Td>
-                      <Button onClick={() => handleDelete(classData)} textTransform="uppercase">
-                        <FaTrash />
-                      </Button>
-                    </Td>
+                    <Td textAlign="center">${payment.price}</Td>
+                    <Td>{payment.status}</Td>
+                    <Td textAlign="center">{payment.transactionId}</Td>
+                    <Td textAlign="center">{formatDate(payment.date)}</Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -127,8 +119,22 @@ const PaymentHistory = () => {
           </TableContainer>
         </Box>
       ) : (
-        <Box pt={150} pb={20} pl={isDesktop && isOpen ? "250px" : 0} transition="padding-left 0.3s ease" textAlign="center" backgroundImage={`url(${DashboardBackground})`} backgroundSize="cover" height="100vh">
-          <Flex flexDirection="column" alignItems="center" justifyContent="center" h="100%">
+        <Box
+          pt={150}
+          pb={20}
+          pl={isDesktop && isOpen ? "250px" : 0}
+          transition="padding-left 0.3s ease"
+          textAlign="center"
+          backgroundImage={`url(${DashboardBackground})`}
+          backgroundSize="cover"
+          height="100vh"
+        >
+          <Flex
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            h="100%"
+          >
             <Text fontSize="3xl" fontWeight="bold" mb={4}>
               You have not made any payment yet!
             </Text>

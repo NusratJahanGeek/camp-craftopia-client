@@ -44,7 +44,7 @@ const NavBar = () => {
   
   const navOptions = (
     <Center fontSize="lg">
-      <Text as={NavLink} to="/">
+      <Text as={NavLink} to="/" mx={5}>
         Home
       </Text>
       <Text as={NavLink} to="/about" mx={5}>
@@ -62,19 +62,21 @@ const NavBar = () => {
       isStudent? <Text as={NavLink} to="/dashboard/student" mx={5}>Dashboard</Text> : 
       null
     }
-
-      <Text as={NavLink} to="/dashboard/selected-classes" mr={5}>Selected
+      {
+      isStudent? <Text as={NavLink} to="/dashboard/selected-classes" mx={5}>Selected
       <Badge mt='-1' ml='1' fontSize='0.9em' colorScheme='green'>
     +{bookings?.length || 0}
       </Badge>
-      </Text>
+      </Text> : 
+      null
+    }
 
       {user ? (
         <>
             
             <Wrap marginRight={5}>
             <WrapItem>
-    <Avatar size='sm' name={user?.displayName} src={user?.photoURL} bg='#FF6B6B' icon={<AiOutlineUser fontSize='1.5rem' />}> <AvatarBadge boxSize='1.25em' bg='green.500' />
+    <Avatar size='sm'  ml={5} name={user?.displayName} src={user?.photoURL} bg='#FF6B6B' icon={<AiOutlineUser fontSize='1.5rem' />}> <AvatarBadge boxSize='1.25em' bg='green.500' />
     
     </Avatar>
     <Badge ml='-2' mt='-2' zIndex={1} colorScheme='orange'>
