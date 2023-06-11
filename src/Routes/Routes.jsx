@@ -7,7 +7,6 @@ import Instructors from "../pages/Instructors/Instructors/Instructors";
 import Classes from "../pages/Classes/Classes/Classes";
 import Login from "../pages/Login/Login";
 import Registration from "../pages/Registration/Registration";
-import Secret from "../pages/Secret/Secret";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Layout/Dashboard";
 import SelectedClasses from "../pages/Dashboard/Student/SelectedClasses";
@@ -19,6 +18,10 @@ import InstructorDashboard from "../pages/Dashboard/Instructor/InstructorDashboa
 import AddClass from "../pages/Dashboard/Instructor/AddClass";
 import AdminRoute from "./AdminRoute";
 import InstructorRoute from "./InstructorRoute";
+import MyClasses from "../pages/Dashboard/Instructor/MyClasses";
+import MakePayment from "../pages/Dashboard/Student/MakePayment";
+import StudentRoute from "./StudentRoute";
+import EnrolledClasses from "../pages/Dashboard/Student/EnrolledClasses";
 
   export const router = createBrowserRouter([
     {
@@ -44,10 +47,6 @@ import InstructorRoute from "./InstructorRoute";
         {
           path: '/register',
           element: <Registration></Registration>
-        },
-        {
-          path: '/secret',
-          element: <PrivateRoute><Secret></Secret></PrivateRoute>
         }
       ]
     },
@@ -55,16 +54,28 @@ import InstructorRoute from "./InstructorRoute";
       path: 'dashboard',
       element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
       children: [
+
         // Student Dashboard
+
         {
           path: 'student',
-          element: <PrivateRoute><StudentDashboard></StudentDashboard></PrivateRoute>
+          element: <StudentRoute><StudentDashboard></StudentDashboard></StudentRoute>
         },
         {
           path: 'selected-classes',
-          element: <PrivateRoute><SelectedClasses></SelectedClasses></PrivateRoute>
+          element: <StudentRoute><SelectedClasses></SelectedClasses></StudentRoute>
         },
+        {
+          path: 'make-payment',
+          element: <StudentRoute><MakePayment></MakePayment></StudentRoute>
+        },
+        {
+          path: 'enrolled-classes',
+          element: <StudentRoute><EnrolledClasses></EnrolledClasses></StudentRoute>
+        },
+
         // Instructor Dashboard
+
         {
           path: 'instructor',
           element: <InstructorRoute><InstructorDashboard></InstructorDashboard></InstructorRoute>
@@ -73,7 +84,13 @@ import InstructorRoute from "./InstructorRoute";
           path: 'add-class',
           element: <InstructorRoute><AddClass></AddClass></InstructorRoute>
         },
+        {
+          path: 'my-classes',
+          element: <InstructorRoute><MyClasses></MyClasses></InstructorRoute>
+        },
+
         // Admin Dashboard
+
         {
           path: 'admin',
           element: <AdminRoute><AdminDashboard></AdminDashboard></AdminRoute>

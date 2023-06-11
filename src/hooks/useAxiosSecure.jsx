@@ -21,13 +21,7 @@ const useAxiosSecure = () => {
         });
 
         axiosSecure.interceptors.response.use(
-            (response) => {
-                const token = response.headers['authorization'];
-    if (token) {
-      localStorage.setItem('access-token', token);
-    }
-    return response;
-            },
+            (response) => response,
             async (error) => {
                 if (error.response && (error.response.status === 401 || error.response.status === 403)) {
                     await logOut();

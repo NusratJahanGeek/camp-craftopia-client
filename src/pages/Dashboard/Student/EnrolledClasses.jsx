@@ -6,7 +6,7 @@ import useBookings from "../../../hooks/useBookings";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const SelectedClasses = () => {
+const EnrolledClasses = () => {
   const [bookings, refetch] = useBookings();
   const toast = useToast();
   const { isOpen } = useDisclosure();
@@ -71,12 +71,6 @@ const SelectedClasses = () => {
             <Text fontSize="3xl" fontWeight="bold">
               Total Price: ${totalPrice}
             </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              |
-            </Text>
-            <Link to="/dashboard/make-payment"><Button fontSize="xl" textTransform="uppercase">
-              Pay Now
-            </Button></Link>
           </Flex>
           <TableContainer mt={12} w={["100%", "100%", "65%"]} mx="auto">
             <Table>
@@ -147,4 +141,4 @@ const SelectedClasses = () => {
   );
 };
 
-export default SelectedClasses;
+export default EnrolledClasses;

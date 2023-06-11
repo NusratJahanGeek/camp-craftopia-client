@@ -24,6 +24,7 @@ const customTheme = extendTheme({
       baseStyle: {
         borderRadius: "4px",
         fontSize: "20px",
+        fontWeight: "normal",
         cursor: "pointer",
       },
       variants: {
@@ -33,6 +34,11 @@ const customTheme = extendTheme({
           _hover: {
             bg: "#ff4c4c",
           },
+        },
+      },
+      defaultProps: {
+        _disabled: {
+          opacity: 0.5,
         },
       },
     },

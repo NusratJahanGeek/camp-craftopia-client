@@ -5,7 +5,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { AiOutlineUser } from "react-icons/ai";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import { FaArrowLeft, FaBookmark, FaCartPlus, FaLaptop,  FaPeopleArrows, FaTachometerAlt } from "react-icons/fa";
+import { FaArrowLeft, FaBookmark, FaCartPlus, FaChalkboardTeacher, FaLaptop,  FaPeopleArrows, FaPlusSquare, FaTachometerAlt } from "react-icons/fa";
 import useBookings from "../hooks/useBookings";
 import useUsers from "../hooks/useUsers";
 import useAdmin from "../hooks/useAdmin";
@@ -217,27 +217,27 @@ const Dashboard = () => {
                     Dashboard
                   </Text>
                   <Text as={NavLink} to="/dashboard/add-class">
+                    <IconButton
+                      aria-label="Add A Class"
+                      icon={<FaPlusSquare />}
+                      mr={5}
+                    />
+                    Add A Class
+                  </Text>
+                  <Text as={NavLink} to="/dashboard/my-classes">
                     <Flex alignItems="center">
                       <IconButton
-                        aria-label="Add A Class"
-                        icon={<FaBookmark />}
+                        aria-label="My Classes"
+                        icon={<FaChalkboardTeacher />}
                         mr={5}
                       />
-                      <Text>Add A Class</Text>
+                      <Text>My Classes</Text>
                       <Badge colorScheme="orange" ml={2} py={1}>
                         + {bookings?.length || 0}
                       </Badge>
                     </Flex>
                   </Text>
 
-                  <Text as={NavLink} to="/dashboard/student/my-classes">
-                    <IconButton
-                      aria-label="My Classes"
-                      icon={<FaLaptop />}
-                      mr={5}
-                    />
-                    My Classes
-                  </Text>
                 </>
              ) : (
                 <>
