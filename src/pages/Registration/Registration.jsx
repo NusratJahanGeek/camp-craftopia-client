@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { Button, FormControl, FormLabel, Input, Radio, RadioGroup, Stack, Text, useToast } from "@chakra-ui/react";
 import SectionTitle from "../../components/SectionTitle";
 import { Helmet } from "react-helmet-async";
@@ -12,6 +12,7 @@ const Registration = () => {
   const { control, register, handleSubmit, reset, formState: { errors }, watch } = useForm({  defaultValues: { password: "", confirmPassword: "" } });
 
   const { createUser, updateUserProfile } = useContext(AuthContext);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const toast = useToast();
   const password = useRef({});
@@ -19,12 +20,11 @@ const Registration = () => {
 
   const onSubmit = (data) => {
     console.log(data)
-    createUser(data.email, data.password).then((result) => {
-      const loggedUser = result.user;
-      console.log(loggedUser);
+    const userRole = "student";
+    createUser(data.email, data.password).then(() => {
       updateUserProfile(data.name, data.photoURL)
         .then(() => {
-          const savedUser = { name: data.name, email: data.email, photo: data.photoURL, phone: data.phoneNumber, address: data.address, gender: data.gender }
+          const savedUser = { name: data.name, email: data.email, photo: data.photoURL, phone: data.phoneNumber, address: data.address, gender: data.gender, role: userRole }
           fetch('http://localhost:5000/users', {
             method: 'POST',
             headers: {
@@ -47,8 +47,16 @@ const Registration = () => {
           })   
           navigate("/");
         })
-        .catch((error) => console.log(error));
-    });
+    })
+    .catch((error) => {
+      if (error.message.includes("email-already-in-use")) {
+        setError("You already have an account with the email address used above. Click below to login instead.");
+      } else if (error.message.includes("invalid-email")) {
+        setError("Your email address in invalid. Please use another one.");
+      } else {
+        setError(error.message);
+      }
+    })
   };
 
   return (
@@ -191,7 +199,7 @@ const Registration = () => {
           <Button type="submit" size="lg" width="40%" marginTop={4}>
             Register
           </Button>
-         
+          <Text className="text-[#FF6B6B] mt-4">{error}</Text>
           <Text marginTop={8}>
             Already Have An Account?{" "}
             <Link to="/login" className="text-[#FF6B6B]">

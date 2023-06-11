@@ -17,7 +17,10 @@ const SocialLogin = () => {
     .then(result => {
       const loggedInUser = result.user;
       console.log(loggedInUser);
-      const savedUser = { name: loggedInUser.displayName, email: loggedInUser.email, photo: loggedInUser.photoURL }
+      const savedUser = { name: loggedInUser.displayName, email: loggedInUser.email, photo: loggedInUser.photoURL };
+      if (!loggedInUser.role) {
+        savedUser.role = "student";
+      }
       fetch('http://localhost:5000/users', {
         method: 'POST',
         headers: {
@@ -44,7 +47,10 @@ const SocialLogin = () => {
     twitterSignIn()
     .then(result => {
       const loggedInUser = result.user;
-      const savedUser = { name: loggedInUser.displayName, email: loggedInUser.email, photo: loggedInUser.photoURL }
+      const savedUser = { name: loggedInUser.displayName, email: loggedInUser.email, photo: loggedInUser.photoURL };
+      if (!loggedInUser.role) {
+        savedUser.role = "student";
+      }
       fetch('http://localhost:5000/users', {
         method: 'POST',
         headers: {

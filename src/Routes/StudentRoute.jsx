@@ -20,7 +20,7 @@ const StudentRoute = ({children}) => {
     }
 
     return (
-        <Navigate to="/" state={{from: location}} replace></Navigate>
+        <Navigate to="/dashboard" state={{from: location}} replace></Navigate>
     );
 };
 

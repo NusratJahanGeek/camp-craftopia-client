@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import SectionTitle from "../../components/SectionTitle";
@@ -12,6 +12,9 @@ const Login = () => {
   const formRef = useRef(null);
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { signIn } = useContext(AuthContext);
+  const [error, setError] = useState("");
+
+
   const navigate = useNavigate();
   const location = useLocation();
   const toast = useToast();
@@ -31,7 +34,17 @@ const Login = () => {
         isClosable: true,
       })
       navigate(from, { replace: true });
-    });
+    })
+    .catch((error) => {
+      if (error.message.includes("wrong-password")) {
+        setError("You've entered a wrong password.");
+      } else if (error.message.includes("user-not-found")) {
+        setError("We couldn't find your email address on our database. Please use the correct one.");
+      } else {
+        setError(error.message);
+      }
+    })
+
   };
 
   return (
@@ -88,6 +101,7 @@ const Login = () => {
             >
               Login
             </Button>
+            <Text className="text-[#FF6B6B] mt-4">{error}</Text>
             <Text marginTop={8}>
               New Here?{" "}
               <Link to="/register" className="text-[#FF6B6B]">

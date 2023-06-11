@@ -6,7 +6,7 @@ import useBookings from "../../../hooks/useBookings";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const EnrolledClasses = () => {
+const PaymentHistory = () => {
   const [bookings, refetch] = useBookings();
   const toast = useToast();
   const { isOpen } = useDisclosure();
@@ -71,6 +71,12 @@ const EnrolledClasses = () => {
             <Text fontSize="3xl" fontWeight="bold">
               Total Price: ${totalPrice}
             </Text>
+            <Text fontSize="3xl" fontWeight="bold">
+              |
+            </Text>
+            <Link to="/dashboard/make-payment"><Button fontSize="xl" textTransform="uppercase">
+              Pay Now
+            </Button></Link>
           </Flex>
           <TableContainer mt={12} w={["100%", "100%", "65%"]} mx="auto">
             <Table>
@@ -124,7 +130,7 @@ const EnrolledClasses = () => {
         <Box pt={150} pb={20} pl={isDesktop && isOpen ? "250px" : 0} transition="padding-left 0.3s ease" textAlign="center" backgroundImage={`url(${DashboardBackground})`} backgroundSize="cover" height="100vh">
           <Flex flexDirection="column" alignItems="center" justifyContent="center" h="100%">
             <Text fontSize="3xl" fontWeight="bold" mb={4}>
-              You have not enrolled in any classes yet!
+              You have not made any payment yet!
             </Text>
             <Text fontSize="xl" mb={6}>
               Please enroll in some classes first.
@@ -141,4 +147,4 @@ const EnrolledClasses = () => {
   );
 };
 
-export default EnrolledClasses;
+export default PaymentHistory;

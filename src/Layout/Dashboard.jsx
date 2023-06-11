@@ -263,7 +263,7 @@ const Dashboard = () => {
                     </Flex>
                   </Text>
 
-                  <Text as={NavLink} to="/dashboard/student/enrolled-classes">
+                  <Text as={NavLink} to="/dashboard/enrolled-classes">
                     <IconButton
                       aria-label="My Enrolled Classes"
                       icon={<FaLaptop />}
@@ -271,7 +271,7 @@ const Dashboard = () => {
                     />
                     My Enrolled Classes
                   </Text>
-                  <Text as={NavLink} to="/dashboard/student/payment-history">
+                  <Text as={NavLink} to="/dashboard/payment-history">
                     <IconButton
                       aria-label="Payment History"
                       icon={<FaCartPlus />}
