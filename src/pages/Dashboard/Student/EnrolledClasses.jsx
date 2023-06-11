@@ -1,56 +1,58 @@
-import Swal from "sweetalert2";
-import { Avatar, Box, Button, Flex, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue, useDisclosure, useToast } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import DashboardBackground from "../../../assets/DashboardBackground.png";
 import { Helmet } from "react-helmet-async";
-import useBookings from "../../../hooks/useBookings";
-import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useClasses from "../../../hooks/useClasses";
+import { useQuery } from "@tanstack/react-query";
+import useInstructors from "../../../hooks/useInstructors";
+
 
 const EnrolledClasses = () => {
-  const [bookings, refetch] = useBookings();
-  const toast = useToast();
+  const { user, loading } = useContext(AuthContext);
+  const [instructors] = useInstructors();
+  const [axiosSecure] = useAxiosSecure();
+  const [classes] = useClasses();
+
+  const { data: payments = [] } = useQuery({
+    queryKey: ["payments", user?.email],
+    enabled: !loading,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/payments?email=${user.email}`);
+      return res.data;
+    },
+  });
+
+  const enrolledClasses = payments.map((payment) => {
+    const classDetails = payment.bookingId.map((bookingId) => {
+      const foundClass = classes.find((classData) => classData._id === bookingId);
+      return foundClass ? { ...foundClass } : null;
+    });
+
+    return {
+      payment,
+      classDetails,
+    };
+  });
+
+  const enrolledClassNumber = enrolledClasses.reduce((total, { classDetails }) => total + classDetails.length, 0);
+
+  const instructorEmail = (instructorName) => {
+    const findInstructor = instructors.find((instructor) => instructor.name === instructorName);
+    return findInstructor ? findInstructor.email : "";
+  };
+
   const { isOpen } = useDisclosure();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
-  const totalPrice = bookings.reduce((sum, classData) => classData.price + sum, 0);
-
-  const handleDelete = (classData) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`http://localhost:5000/bookings/${classData._id}`, {
-          method: "DELETE"
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount > 0) {
-              refetch();
-              toast({
-                title: "Done!",
-                description: "You've successfully deleted the class from your list.",
-                status: "success",
-                duration: 9000,
-                isClosable: true
-              });
-            }
-          });
-      }
-    });
-  };
-
   return (
-   <div>
-     <Helmet>
+    <div>
+      <Helmet>
         <title>Camp Craftopia | Selected Classes</title>
       </Helmet>
-      {bookings?.length > 0 ? (
+      {enrolledClassNumber > 0 ? (
         <Box
           pt={150}
           pb={20}
@@ -59,69 +61,54 @@ const EnrolledClasses = () => {
           textAlign="center"
           backgroundImage={`url(${DashboardBackground})`}
           backgroundSize="cover"
-          height={bookings.length < 5 ? "100vh" : "full"}
+          height={enrolledClassNumber < 5 ? "100vh" : "full"}
         >
-          <Flex justifyContent="center" alignItems="center" gap={8}>
-            <Text fontSize="3xl" fontWeight="bold">
-              Selected Classes: {bookings.length}
-            </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              |
-            </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              Total Price: ${totalPrice}
-            </Text>
-          </Flex>
+          <Text fontSize="3xl" fontWeight="bold">
+            Enrolled Classes: {enrolledClassNumber}
+          </Text>
           <TableContainer mt={12} w={["100%", "100%", "65%"]} mx="auto">
             <Table>
               <Thead fontSize="34px">
                 <Tr>
-                  <Th fontSize="md" textAlign="center">
-                    #
-                  </Th>
-                  <Th fontSize="md" textAlign="center">
-                    Class Name
-                  </Th>
-                  <Th fontSize="md" textAlign="center">
-                    Available Seats
-                  </Th>
-                  <Th fontSize="md" textAlign="center">
-                    Instructor
-                  </Th>
-                  <Th fontSize="md" textAlign="center">
-                    Price
-                  </Th>
-                  <Th fontSize="md" textAlign="center">
-                    Action
-                  </Th>
+                  <Th fontSize="md" textAlign="center">Class Name</Th>
+                  <Th fontSize="md" textAlign="center">Instructor</Th>
+                  <Th fontSize="md" textAlign="center">Support Email</Th>
+                  <Th fontSize="md" textAlign="center">Purchase Status</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {bookings.map((classData, index) => (
-                  <Tr align="center" key={classData._id}>
-                    <Td>{index + 1}</Td>
-                    <Td textAlign="center">
-                      <Flex alignItems="center">
-                        <Avatar name={classData.name} src={classData.image} mr={2} />
-                        {classData.name}
-                      </Flex>
-                    </Td>
-                    <Td textAlign="center">{classData.availableSeats}</Td>
-                    <Td>{classData.instructor}</Td>
-                    <Td textAlign="center">${classData.price}</Td>
-                    <Td>
-                      <Button onClick={() => handleDelete(classData)} textTransform="uppercase">
-                        <FaTrash />
-                      </Button>
-                    </Td>
-                  </Tr>
-                ))}
+                {enrolledClasses.map(({ payment, classDetails }) => {
+                  return classDetails.map((classData, classIndex) => {
+                    return (
+                      <Tr align="center" key={`${payment._id}-${classIndex}`}>
+                        <Td textAlign="center">
+                          <Flex alignItems="center">
+                            <Avatar name={classData.name} src={classData.image} mr={2} />
+                            {classData.name}
+                          </Flex>
+                        </Td>
+                        <Td>{classData.instructor}</Td>
+                        <Td textAlign="center">{instructorEmail(classData.instructor)}</Td>
+                        <Td textAlign="center">{payment.status}</Td>
+                      </Tr>
+                    );
+                  });
+                })}
               </Tbody>
             </Table>
           </TableContainer>
         </Box>
       ) : (
-        <Box pt={150} pb={20} pl={isDesktop && isOpen ? "250px" : 0} transition="padding-left 0.3s ease" textAlign="center" backgroundImage={`url(${DashboardBackground})`} backgroundSize="cover" height="100vh">
+        <Box
+          pt={150}
+          pb={20}
+          pl={isDesktop && isOpen ? "250px" : 0}
+          transition="padding-left 0.3s ease"
+          textAlign="center"
+          backgroundImage={`url(${DashboardBackground})`}
+          backgroundSize="cover"
+          height="100vh"
+        >
           <Flex flexDirection="column" alignItems="center" justifyContent="center" h="100%">
             <Text fontSize="3xl" fontWeight="bold" mb={4}>
               You have not enrolled in any classes yet!

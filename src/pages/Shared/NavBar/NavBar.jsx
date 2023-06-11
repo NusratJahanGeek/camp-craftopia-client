@@ -63,7 +63,7 @@ const NavBar = () => {
       null
     }
       {
-      isStudent? <Text as={NavLink} to="/dashboard/selected-classes" mx={5}>Selected
+      isStudent? <Text as={NavLink} to="/dashboard/selected-classes" mx={5}>Wishlist
       <Badge mt='-1' ml='1' fontSize='0.9em' colorScheme='green'>
     +{bookings?.length || 0}
       </Badge>
