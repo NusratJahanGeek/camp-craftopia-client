@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Flex, Table, TableContainer, Tbody, Td, Text, Th, 
 import DashboardBackground from "../../../assets/DashboardBackground.png";
 import { Helmet } from "react-helmet-async";
 import useBookings from "../../../hooks/useBookings";
-import { FaTrash } from "react-icons/fa";
+import { FaFileInvoiceDollar, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const SelectedClasses = () => {
@@ -12,7 +12,13 @@ const SelectedClasses = () => {
   const { isOpen } = useDisclosure();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
-  const totalPrice = bookings.reduce((sum, classData) => classData.price + sum, 0);
+  //const totalPrice = bookings.reduce((sum, classData) => classData.price + sum, 0);
+
+  const handlePayButtonClick = (classData) => {
+    const selectedClassData = JSON.stringify(classData);
+    localStorage.setItem('class-data', selectedClassData);
+    window.location.href = '/dashboard/make-payment';
+  }
 
   const handleDelete = (classData) => {
     Swal.fire({
@@ -63,20 +69,9 @@ const SelectedClasses = () => {
         >
           <Flex justifyContent="center" alignItems="center" gap={8}>
             <Text fontSize="3xl" fontWeight="bold">
-              Selected Classes: {bookings.length}
+              Wishlist Items: {bookings.length}
             </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              |
-            </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              Total Price: ${totalPrice}
-            </Text>
-            <Text fontSize="3xl" fontWeight="bold">
-              |
-            </Text>
-            <Link to="/dashboard/make-payment"><Button fontSize="xl" textTransform="uppercase">
-              Pay Now
-            </Button></Link>
+           
           </Flex>
           <TableContainer mt={12} w={["100%", "100%", "65%"]} mx="auto">
             <Table>
@@ -98,7 +93,10 @@ const SelectedClasses = () => {
                     Price
                   </Th>
                   <Th fontSize="md" textAlign="center">
-                    Action
+                    Pay
+                  </Th>
+                  <Th fontSize="md" textAlign="center">
+                    Delete
                   </Th>
                 </Tr>
               </Thead>
@@ -115,6 +113,11 @@ const SelectedClasses = () => {
                     <Td textAlign="center">{classData.availableSeats}</Td>
                     <Td>{classData.instructor}</Td>
                     <Td textAlign="center">${classData.price}</Td>
+                    <Td>
+                      <Button onClick={() => handlePayButtonClick(classData)} textTransform="uppercase">
+                        <FaFileInvoiceDollar />
+                      </Button>
+                    </Td>
                     <Td>
                       <Button onClick={() => handleDelete(classData)} textTransform="uppercase">
                         <FaTrash />

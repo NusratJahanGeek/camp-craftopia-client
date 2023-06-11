@@ -6,7 +6,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import { AuthContext } from "../providers/AuthProvider";
 
 
-const CardDetails = ({bookings, price}) => {
+const CardDetails = ({wishlist, price, bookings}) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useContext(AuthContext);
@@ -17,6 +17,11 @@ const CardDetails = ({bookings, price}) => {
     const [transactionId, setTransactionId] = useState('');
     const toast = useToast();
     const navigate = useNavigate();
+
+    console.log(bookings.map(classData => classData.classId))
+    console.log(wishlist);
+
+    
 
     useEffect(() => {
         if(price > 0){
@@ -86,12 +91,15 @@ const CardDetails = ({bookings, price}) => {
                 transactionId: paymentIntent.id,
                 price,
                 date: new Date(),
-                quantity: bookings.length,
-                status: 'Service Pending',
-                classId: bookings.map(classData => classData._id),
-                bookingId: bookings.map(classData => classData.classId),
-                classNames: bookings.map(classData => classData.name)
+                status: 'Class Pending',
+                classId: wishlist._id,
+                bookingId: wishlist.classId,
+                className: wishlist.name,
+                classImage: wishlist.image,
+                instructor: wishlist.instructor,
+                totalStudents: wishlist.totalStudents
             }
+      
             axiosSecure.post("/payments", payment).then((res) => {
                 console.log(res.data);
                 if (res.data.insertResult){

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Flex,
@@ -45,6 +46,8 @@ const PaymentHistory = () => {
     return dateB - dateA;
   });
 
+  console.log(sortedPayments);
+
   const { isOpen } = useDisclosure();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
@@ -56,7 +59,7 @@ const PaymentHistory = () => {
   return (
     <div>
       <Helmet>
-        <title>Camp Craftopia | Selected Classes</title>
+        <title>Camp Craftopia | Payment History</title>
       </Helmet>
       {payments?.length > 0 ? (
         <Box
@@ -102,11 +105,15 @@ const PaymentHistory = () => {
                 {sortedPayments.map((payment, index) => (
                   <Tr align="center" key={payment._id}>
                     <Td>{index + 1}</Td>
-
                     <Td textAlign="center">
-                      {payment.classNames.map((individualClass, index) => (
-                        <p className="py-1" key={index}>{individualClass}</p>
-                      ))}
+                      <Flex alignItems="center">
+                        <Avatar
+                          name={payment.className}
+                          src={payment.classImage}
+                          mr={2}
+                        />
+                        {payment.className}
+                      </Flex>
                     </Td>
                     <Td textAlign="center">${payment.price}</Td>
                     <Td>{payment.status}</Td>
