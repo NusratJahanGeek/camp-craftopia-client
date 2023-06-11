@@ -1,19 +1,36 @@
 import { useForm } from "react-hook-form";
 import { useContext, useRef, useState } from "react";
-import { Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import SectionTitle from "../../components/SectionTitle";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import SocialLogin from "../../components/SocialLogin";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const formRef = useRef(null);
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { signIn } = useContext(AuthContext);
   const [error, setError] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,28 +40,30 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    signIn(data.email, data.password).then((result) => {
-      const user = result.user;
-      console.log(user);
-      toast({
-        title: 'Welcome!',
-        description: "You've successfully logged in.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
+    signIn(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast({
+          title: "Welcome!",
+          description: "You've successfully logged in.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        navigate(from, { replace: true });
       })
-      navigate(from, { replace: true });
-    })
-    .catch((error) => {
-      if (error.message.includes("wrong-password")) {
-        setError("You've entered a wrong password.");
-      } else if (error.message.includes("user-not-found")) {
-        setError("We couldn't find your email address on our database. Please use the correct one.");
-      } else {
-        setError(error.message);
-      }
-    })
-
+      .catch((error) => {
+        if (error.message.includes("wrong-password")) {
+          setError("You've entered a wrong password.");
+        } else if (error.message.includes("user-not-found")) {
+          setError(
+            "We couldn't find your email address on our database. Please use the correct one."
+          );
+        } else {
+          setError(error.message);
+        }
+      });
   };
 
   return (
@@ -57,26 +76,38 @@ const Login = () => {
         <FormControl padding={4} className="mx-auto space-y-2">
           <FormLabel>Email</FormLabel>
           <Input
-  name="email"
-  type="email"
-  {...register("email", { required: true })}
-  focusBorderColor="#FFD9EC"
-  id="field-email"
+            name="email"
+            type="email"
+            {...register("email", { required: true })}
+            focusBorderColor="#FFD9EC"
+            id="field-email"
           />
           {errors.email && (
             <span className="text-red-600">Email is required</span>
           )}
           <FormLabel>Password</FormLabel>
-          <Input
-            name="password"
-            type="password"
-            {...register("password", {
-              required: true,
-              minLength: 6,
-              pattern: /(?=.*[A-Z])(?=.*[!@#$&*]).{6}/,
-            })}
-            focusBorderColor="#FFD9EC"
-          />
+          <div className="relative">
+            <Flex justifyContent="center" alignItems="center">
+              <Input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: true,
+                  minLength: 6,
+                  pattern: /(?=.*[A-Z])(?=.*[!@#$&*]).{6}/,
+                })}
+                focusBorderColor="#FFD9EC"
+              />
+              <Button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute"
+                variant="ghost"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </Button>
+            </Flex>
+          </div>
           {errors.password?.type === "required" && (
             <span className="text-red-600">Password is required</span>
           )}

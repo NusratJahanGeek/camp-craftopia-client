@@ -1,62 +1,105 @@
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
-import { Button, FormControl, FormLabel, Input, Radio, RadioGroup, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import SectionTitle from "../../components/SectionTitle";
 import { Helmet } from "react-helmet-async";
 import { AuthContext } from "../../providers/AuthProvider";
 import SocialLogin from "../../components/SocialLogin";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Registration = () => {
   const formRef = useRef(null);
-  const { control, register, handleSubmit, reset, formState: { errors }, watch } = useForm({  defaultValues: { password: "", confirmPassword: "" } });
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    watch,
+  } = useForm({ defaultValues: { password: "", confirmPassword: "" } });
 
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [error, setError] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = (field) => {
+    if (field === "password") {
+      setShowPassword((prevShowPassword) => !prevShowPassword);
+    } else if (field === "confirmPassword") {
+      setShowConfirmPassword(
+        (prevShowConfirmPassword) => !prevShowConfirmPassword
+      );
+    }
+  };
+
   const navigate = useNavigate();
   const toast = useToast();
   const password = useRef({});
   password.current = watch("password", "");
 
   const onSubmit = (data) => {
-    console.log(data)
+    console.log(data);
     const userRole = "student";
-    createUser(data.email, data.password).then(() => {
-      updateUserProfile(data.name, data.photoURL)
-        .then(() => {
-          const savedUser = { name: data.name, email: data.email, photo: data.photoURL, phone: data.phoneNumber, address: data.address, gender: data.gender, role: userRole }
-          fetch('http://localhost:5000/users', {
-            method: 'POST',
+    createUser(data.email, data.password)
+      .then(() => {
+        updateUserProfile(data.name, data.photoURL).then(() => {
+          const savedUser = {
+            name: data.name,
+            email: data.email,
+            photo: data.photoURL,
+            phone: data.phoneNumber,
+            address: data.address,
+            gender: data.gender,
+            role: userRole,
+          };
+          fetch("http://localhost:5000/users", {
+            method: "POST",
             headers: {
-              'content-type': 'application/json'
+              "content-type": "application/json",
             },
-            body: JSON.stringify(savedUser)
+            body: JSON.stringify(savedUser),
           })
-          .then(res => res.json())
-          .then(data => {
-            if(data.insertedId) {
-              reset();
-              toast({
-                title: "YAY, you're in!",
-                description: "Your Account Has Been Created Successfully!",
-                status: 'success',
-                duration: 9000,
-                isClosable: true,
-              })
-            }
-          })   
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                reset();
+                toast({
+                  title: "YAY, you're in!",
+                  description: "Your Account Has Been Created Successfully!",
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                });
+              }
+            });
           navigate("/");
-        })
-    })
-    .catch((error) => {
-      if (error.message.includes("email-already-in-use")) {
-        setError("You already have an account with the email address used above. Click below to login instead.");
-      } else if (error.message.includes("invalid-email")) {
-        setError("Your email address in invalid. Please use another one.");
-      } else {
-        setError(error.message);
-      }
-    })
+        });
+      })
+      .catch((error) => {
+        if (error.message.includes("email-already-in-use")) {
+          setError(
+            "You already have an account with the email address used above. Click below to login instead."
+          );
+        } else if (error.message.includes("invalid-email")) {
+          setError("Your email address in invalid. Please use another one.");
+        } else {
+          setError(error.message);
+        }
+      });
   };
 
   return (
@@ -96,16 +139,29 @@ const Registration = () => {
         <Stack direction="row" spacing={8} marginBottom={4}>
           <FormControl width="50%" className="space-y-2">
             <FormLabel>Password</FormLabel>
-            <Input
-              name="password"
-              type="password"
-              {...register("password", {
-                required: true,
-                minLength: 6,
-                pattern: /(?=.*[A-Z])(?=.*[!@#$&*]).{6}/,
-              })}
-              focusBorderColor="#FFD9EC"
-            />
+            <div className="relative">
+              <Flex justifyContent="center" alignItems="center">
+                <Input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  {...register("password", {
+                    required: true,
+                    minLength: 6,
+                    pattern: /(?=.*[A-Z])(?=.*[!@#$&*]).{6}/,
+                  })}
+                  focusBorderColor="#FFD9EC"
+                />
+
+                <Button
+                  type="button"
+                  onClick={() => togglePasswordVisibility("password")}
+                  className="absolute"
+                  variant="ghost"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+              </Flex>
+            </div>
             {errors.password?.type === "required" && (
               <span className="text-red-600">Password is required</span>
             )}
@@ -122,15 +178,28 @@ const Registration = () => {
           </FormControl>
           <FormControl width="50%" className="space-y-2">
             <FormLabel>Confirm Password</FormLabel>
-            <Input
-              name="confirmPassword"
-              type="password"
-              {...register("confirmPassword", {
-                required: true,
-                validate: (value) => value === password.current,
-              })}
-              focusBorderColor="#FFD9EC"
-            />
+            <div className="relative">
+              <Flex justifyContent="center" alignItems="center">
+                <Input
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  {...register("confirmPassword", {
+                    required: true,
+                    validate: (value) => value === password.current,
+                  })}
+                  focusBorderColor="#FFD9EC"
+                />
+
+                <Button
+                  type="button"
+                  onClick={() => togglePasswordVisibility("confirmPassword")}
+                  className="absolute"
+                  variant="ghost"
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+              </Flex>
+            </div>
             {errors.confirmPassword && (
               <span className="text-red-600">
                 Passwords do not match. Please type it again.
