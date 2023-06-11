@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
 import {
   Box,
   Center,
@@ -19,15 +21,18 @@ import {
 import { NavLink } from "react-router-dom";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import logo from "../../../assets/Camp Craftopia.png";
-import { useContext } from "react";
-import { AuthContext } from "../../../providers/AuthProvider";
 import { AiOutlineUser } from 'react-icons/ai';
 import useBookings from "../../../hooks/useBookings";
+import useAdmin from "../../../hooks/useAdmin"
+import useInstructorDashboard from "../../../hooks/useInstructorDashboard"
+import useStudentDashboard from "../../../hooks/useStudentDashboard"
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [bookings] = useBookings();
-
+  const [isAdmin] = useAdmin();
+  const [isInstructor] = useInstructorDashboard();
+  const [isStudent] = useStudentDashboard();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const mxValue = useBreakpointValue({ base: 0, lg: 84 });
 
@@ -36,6 +41,7 @@ const NavBar = () => {
       .then(() => {})
       .catch(error => console.log(error));
   }
+  
   const navOptions = (
     <Center fontSize="lg">
       <Text as={NavLink} to="/">
@@ -50,9 +56,13 @@ const NavBar = () => {
       <Text as={NavLink} to="/classes" mx={5}>
         Classes
       </Text>
-      <Text as={NavLink} to="/dashboard" mx={5}>
-        Dashboard
-      </Text>
+    {
+      isAdmin ? <Text as={NavLink} to="/dashboard/admin" mx={5}>Dashboard</Text> : 
+      isInstructor ? <Text as={NavLink} to="/dashboard/instructor" mx={5}>Dashboard</Text> : 
+      isStudent? <Text as={NavLink} to="/dashboard/student" mx={5}>Dashboard</Text> : 
+      null
+    }
+
       <Text as={NavLink} to="/dashboard/selected-classes" mr={5}>Selected
       <Badge mt='-1' ml='1' fontSize='0.9em' colorScheme='green'>
     +{bookings?.length || 0}
