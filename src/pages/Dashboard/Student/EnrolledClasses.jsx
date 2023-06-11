@@ -59,8 +59,6 @@ const EnrolledClasses = () => {
     return [];
   });
 
-  console.log(enrolledClasses);
-
   const instructorEmail = (instructorName) => {
     const findInstructor = instructors.find(
       (instructor) => instructor.name === instructorName

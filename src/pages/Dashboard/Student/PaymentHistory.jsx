@@ -46,8 +46,6 @@ const PaymentHistory = () => {
     return dateB - dateA;
   });
 
-  console.log(sortedPayments);
-
   const { isOpen } = useDisclosure();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 

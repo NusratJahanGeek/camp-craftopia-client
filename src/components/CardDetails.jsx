@@ -6,7 +6,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import { AuthContext } from "../providers/AuthProvider";
 
 
-const CardDetails = ({wishlist, price, bookings}) => {
+const CardDetails = ({wishlist, price}) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useContext(AuthContext);
@@ -18,16 +18,10 @@ const CardDetails = ({wishlist, price, bookings}) => {
     const toast = useToast();
     const navigate = useNavigate();
 
-    console.log(bookings.map(classData => classData.classId))
-    console.log(wishlist);
-
-    
-
     useEffect(() => {
         if(price > 0){
             axiosSecure.post('/create-payment-intent', {price})
         .then(res => {
-            console.log(res.data.clientSecret)
             setClientSecret(res.data.clientSecret);
         })
         }
@@ -82,7 +76,6 @@ const CardDetails = ({wishlist, price, bookings}) => {
             console.log(confirmError);
           }
     
-          console.log(paymentIntent);
           setProcessing(false);
           if(paymentIntent.status === 'succeeded'){
             setTransactionId(paymentIntent.id);
@@ -101,8 +94,8 @@ const CardDetails = ({wishlist, price, bookings}) => {
             }
       
             axiosSecure.post("/payments", payment).then((res) => {
-                console.log(res.data);
                 if (res.data.insertResult){
+                  console.log(res.data)
                     toast({
                         title: 'Payment Successful!',
                         description: "Congratulations, you've successfully enrolled to the class.",

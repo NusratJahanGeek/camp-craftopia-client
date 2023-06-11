@@ -20,7 +20,6 @@ const Classes = () => {
     const handleSelectedClasses = classData => {
       if(user) {
         const bookingItem = {classId: classData._id, name: classData.name, image: classData.image, price: classData.price, totalStudents: classData.totalStudents, instructor: classData.instructor, availableSeats: classData.availableSeats, email: user.email, userName: user.displayName};
-        console.log(bookingItem)
       fetch('http://localhost:5000/bookings', {
       method: 'POST',
       headers: {

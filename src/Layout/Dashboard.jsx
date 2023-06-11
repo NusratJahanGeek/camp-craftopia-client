@@ -10,11 +10,13 @@ import useBookings from "../hooks/useBookings";
 import useUsers from "../hooks/useUsers";
 import useAdmin from "../hooks/useAdmin";
 import useInstructorDashboard from "../hooks/useInstructorDashboard";
+import useMyAddedClasses from "../hooks/useMyAddedClasses";
 
 const Dashboard = () => {
   const { user, logOut } = useContext(AuthContext);
   const [bookings] = useBookings();
   const [users] = useUsers();
+  const [addedClasses] = useMyAddedClasses();
 
   const [isAdmin] = useAdmin();
   const [isInstructor] = useInstructorDashboard();
@@ -188,7 +190,7 @@ const Dashboard = () => {
                       />
                       <Text>Manage Classes</Text>
                       <Badge colorScheme="orange" ml={2} py={1}>
-                        + {bookings?.length || 0}
+                        + {bookings?.length || null}
                       </Badge>
                     </Flex>
                   </Text>
@@ -233,7 +235,7 @@ const Dashboard = () => {
                       />
                       <Text>My Classes</Text>
                       <Badge colorScheme="orange" ml={2} py={1}>
-                        + {bookings?.length || 0}
+                        + {addedClasses?.length || null}
                       </Badge>
                     </Flex>
                   </Text>
@@ -258,7 +260,7 @@ const Dashboard = () => {
                       />
                       <Text>My Selected Classes</Text>
                       <Badge colorScheme="orange" ml={2} py={1}>
-                        + {bookings?.length || 0}
+                        + {bookings?.length || null}
                       </Badge>
                     </Flex>
                   </Text>

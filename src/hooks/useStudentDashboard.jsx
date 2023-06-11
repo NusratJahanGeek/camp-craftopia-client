@@ -11,8 +11,6 @@ const useStudentDashboard = () => {
         enabled: !loading,
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/student/${user?.email}`);
-            console.log('Is Student Response', res);
-            console.log(res.data)
             return res.data.student;
         }
     })

@@ -3,13 +3,17 @@ import DashboardBackground from "../../../assets/DashboardBackground.png";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import SectionTitle from "../../../components/SectionTitle";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { AuthContext } from "../../../providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const imageHostingToken = import.meta.env.VITE_Image_Upload_Token;
 
 const AddClass = () => {
     const [axiosSecure] = useAxiosSecure();
+    const {user} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const formRef = useRef(null);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -19,7 +23,6 @@ const imageHostingURL = `https://api.imgbb.com/1/upload?key=${imageHostingToken}
  
 
   const onSubmit = (data) => {
-    console.log(data);
     const formData = new FormData();
     formData.append('image', data.image[0]);
 
@@ -31,12 +34,11 @@ const imageHostingURL = `https://api.imgbb.com/1/upload?key=${imageHostingToken}
     .then(imgResponse => {
         if(imgResponse.success) {
             const imgURL = imgResponse.data.display_url;
-            const {name, price, availableSeats, instructor} = data;
-            const newClassData = {name, price: parseFloat(price), availableSeats: parseFloat(availableSeats), instructor, image: imgURL}
+            const {name, price, availableSeats} = data;
+            const newClassData = {name, price: parseFloat(price), availableSeats: parseFloat(availableSeats), instructor: user.displayName, email: user.email, image: imgURL, status: 'Pending'}
             console.log(newClassData);
             axiosSecure.post('/classes', newClassData)
             .then(data => {
-                console.log('New Class Data Posted', data.data)
                 if(data.data.insertedId) {
                     reset();
               toast({
@@ -45,7 +47,8 @@ const imageHostingURL = `https://api.imgbb.com/1/upload?key=${imageHostingToken}
                 status: 'success',
                 duration: 9000,
                 isClosable: true,
-              })
+              });
+              navigate('/dashboard/my-classes');
                 }
             })
         }
@@ -101,7 +104,9 @@ const imageHostingURL = `https://api.imgbb.com/1/upload?key=${imageHostingToken}
       <Input
         name="instructor"
         type="text"
-        {...register("instructor", { required: true })}
+        value={user.displayName}
+        isReadOnly
+        // {...register("instructor", { required: true })}
         borderColor="#999999" focusBorderColor="#FF6B6B"
       />
       {errors.name && (
@@ -113,7 +118,9 @@ const imageHostingURL = `https://api.imgbb.com/1/upload?key=${imageHostingToken}
       <Input
         name="email"
         type="email"
-        {...register("email", { required: true })}
+        value={user.email}
+        isReadOnly
+        //{...register("email", { required: true })}
        borderColor="#999999" focusBorderColor="#FF6B6B"
       />
       {errors.email && (

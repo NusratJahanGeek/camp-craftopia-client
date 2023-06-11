@@ -11,8 +11,6 @@ const useInstructorDashboard = () => {
         enabled: !loading,
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/instructor/${user?.email}`);
-            console.log('Is Instructor Response', res);
-            console.log(res.data)
             return res.data.instructor;
         }
     })
