@@ -1,5 +1,6 @@
-import { Box, Text, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
-import DashboardBackground from "../../../assets/DashboardBackground.png";
+import { Box, Text, useBreakpointValue, useColorMode, useDisclosure } from "@chakra-ui/react";
+import backgroundLight from "../../../assets/DashboardBackground.png";
+import backgroundDark from "../../../assets/backgroundDark.png";
 import { Helmet } from "react-helmet-async";
 
 const StudentDashboard = () => {
@@ -7,6 +8,9 @@ const StudentDashboard = () => {
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const paddingXValue = useBreakpointValue({ base: "0", md: isDesktop && isOpen ? "250px" : "420px" });
+
+  const { colorMode } = useColorMode();
+  const DashboardBackground = colorMode === "light" ? backgroundLight : backgroundDark;
 
   return (
     <Box

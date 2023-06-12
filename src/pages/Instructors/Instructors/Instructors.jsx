@@ -5,14 +5,9 @@ import bannerImg from "../../../assets/Banner1.jpg";
 import useInstructorData from "../../../hooks/useInstructorData";
 import backgroundLight from "../../../assets/DashboardBackground.png";
 import backgroundDark from "../../../assets/backgroundDark.png"
-import { useContext } from "react";
-import { AuthContext } from "../../../providers/AuthProvider";
-import useClasses from "../../../hooks/useClasses";
 
 const Instructors = () => {
-  const { user } = useContext(AuthContext);
-  const { classes } = useClasses();
-  
+
   const instructorData = useInstructorData();
 
   const { colorMode } = useColorMode();
