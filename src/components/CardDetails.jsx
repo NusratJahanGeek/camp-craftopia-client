@@ -134,7 +134,7 @@ const CardDetails = ({wishlist, price}) => {
         }}
       />
     <Flex paddingBottom={8} justifyContent="center">
-  <Button fontSize="lg" type="submit" disabled={!stripe || !clientSecret || processing}>
+  <Button fontSize="lg" type="submit" isDisabled={!stripe || !clientSecret || processing}>
     Proceed Payment
   </Button>
 </Flex>
