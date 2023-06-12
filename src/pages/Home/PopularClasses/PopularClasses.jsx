@@ -8,7 +8,7 @@ const PopularClasses = () => {
 
   useEffect(() => {
     const fetchClasses = async () => {
-      const response = await fetch("http://localhost:5000/classes");
+      const response = await fetch("https://camp-craftopia-server.vercel.app/classes");
       const data = await response.json();
       const approvedClasses = data.filter((classData) => classData.status === "Approved");
       setClasses(approvedClasses);
