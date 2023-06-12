@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { CSSReset, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Routes/Routes.jsx";
 import { HelmetProvider } from "react-helmet-async";
@@ -11,48 +11,13 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import "sweetalert2/dist/sweetalert2.css";
+import theme from "../theme";
 
 const queryClient = new QueryClient()
 
-const customTheme = extendTheme({
-  fonts: {
-    heading: "Caveat, cursive",
-    body: "Fredoka, sans-serif",
-  },
-  components: {
-    Button: {
-      baseStyle: {
-        borderRadius: "4px",
-        fontSize: "20px",
-        fontWeight: "normal",
-        cursor: "pointer",
-      },
-      variants: {
-        solid: {
-          bg: "#ff6b6b",
-          color: "#fff",
-          _hover: {
-            bg: "#ff4c4c",
-          },
-        },
-      },
-      defaultProps: {
-        _disabled: {
-          opacity: 0.7,
-          _hover: {
-            bg: "#ff6b6b",
-            opacity: 0.5,
-          },
-        },
-      },
-    },
-  },
-});
-
-
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ChakraProvider theme={customTheme}>
+  <ChakraProvider theme={theme}>
     <CSSReset global />
     <React.StrictMode>
       <AuthProvider>

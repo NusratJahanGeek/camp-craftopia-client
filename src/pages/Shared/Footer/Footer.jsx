@@ -1,11 +1,17 @@
-import { Box, Flex, Grid, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, Text, useColorMode } from "@chakra-ui/react";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
+
+  const { colorMode } = useColorMode();
+
+  const bgColor = colorMode === "dark" ? "#2D3748" : "#FFFFFF";
+  const textColor = colorMode === "dark" ? "#FFFFFF" : "#000";
+
   return (
     <>
       <hr style={{ borderColor: "#FFD9EC", opacity: 1, borderWidth: "2px" }} />
-      <Box bg="#FFFFFF" color="#000" py={20}>
+      <Box bg={bgColor} color={textColor}  py={20}>
         <Grid
           templateColumns="1fr 1fr 1fr"
           gap={6}
@@ -50,7 +56,7 @@ const Footer = () => {
         </Grid>
       </Box>
       <Box align="center">
-        <Text marginBottom={4}>
+        <Text py={4}>
           &copy; {new Date().getFullYear()} Camp Craftopia
         </Text>
       </Box>

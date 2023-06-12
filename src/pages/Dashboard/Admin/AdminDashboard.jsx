@@ -1,10 +1,12 @@
-import { Box, Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber, Text, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
-import DashboardBackground from "../../../assets/DashboardBackground.png";
+import { Box, Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber, Text, useBreakpointValue, useColorMode, useDisclosure } from "@chakra-ui/react";
+import backgroundLight from "../../../assets/DashboardBackground.png";
+import backgroundDark from "../../../assets/backgroundDark.png";
 import { Helmet } from "react-helmet-async";
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+
 
 const AdminDashboard = () => {
   const {user} = useContext(AuthContext);
@@ -23,6 +25,10 @@ const AdminDashboard = () => {
   
     const paddingXValue = useBreakpointValue({ base: "0", md: isDesktop && isOpen ? "250px" : "420px" });
 
+    const { colorMode } = useColorMode();
+    const DashboardBackground = colorMode === "light" ? backgroundLight : backgroundDark;
+
+    const background = colorMode === "light" ? "#fff" : "#2d3748";
     
     return (
         <Box
@@ -47,7 +53,7 @@ const AdminDashboard = () => {
        Here are your stats as of today.
       </Text>
       <StatGroup mt={8}>
-      <Stat backgroundColor="white" gap="4" px={10} py={2} mx={5} borderRadius={8}>
+      <Stat backgroundColor={background} gap="4" px={10} py={2} mx={5} borderRadius={8}>
     <StatLabel fontSize={18}>Revenue</StatLabel>
     <StatNumber>{stats.revenue}</StatNumber>
     <StatHelpText>
@@ -56,7 +62,7 @@ const AdminDashboard = () => {
     </StatHelpText>
   </Stat>
 
-  <Stat backgroundColor="white" gap="4" px={10} py={2} mx={5} borderRadius={8}>
+  <Stat backgroundColor={background} gap="4" px={10} py={2} mx={5} borderRadius={8}>
     <StatLabel fontSize={18}>Purchases</StatLabel>
     <StatNumber>{stats.purchases}</StatNumber>
     <StatHelpText>
@@ -65,7 +71,7 @@ const AdminDashboard = () => {
     </StatHelpText>
   </Stat>
 
-  <Stat backgroundColor="white" gap="4" px={10} py={2} mx={5} borderRadius={8}>
+  <Stat backgroundColor={background} gap="4" px={10} py={2} mx={5} borderRadius={8}>
     <StatLabel fontSize={18}>Users</StatLabel>
     <StatNumber>{stats.users}</StatNumber>
     <StatHelpText>
@@ -74,7 +80,7 @@ const AdminDashboard = () => {
     </StatHelpText>
   </Stat>
 
-  <Stat backgroundColor="white" gap="4" px={10} py={2} mx={5} borderRadius={8}>
+  <Stat backgroundColor={background} gap="4" px={10} py={2} mx={5} borderRadius={8}>
     <StatLabel fontSize={18}>Classes</StatLabel>
     <StatNumber>{stats.classes}</StatNumber>
     <StatHelpText>

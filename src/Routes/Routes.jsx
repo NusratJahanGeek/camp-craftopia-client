@@ -8,7 +8,7 @@ import Classes from "../pages/Classes/Classes/Classes";
 import Login from "../pages/Login/Login";
 import Registration from "../pages/Registration/Registration";
 import PrivateRoute from "./PrivateRoute";
-import Dashboard from "../Layout/Dashboard";
+import DashboardLayout from "../Layout/DashboardLayout";
 import SelectedClasses from "../pages/Dashboard/Student/SelectedClasses";
 import StudentDashboard from "../pages/Dashboard/Student/StudentDashboard";
 import AdminDashboard from "../pages/Dashboard/Admin/AdminDashboard";
@@ -54,7 +54,7 @@ import NotFoundLayout from "../Layout/NotFoundLayout";
     },
     {
       path: 'dashboard',
-      element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+      element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
       children: [
 
         // Student Dashboard

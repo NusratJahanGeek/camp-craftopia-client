@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Flex,
   Table,
   TableContainer,
@@ -11,16 +10,14 @@ import {
   Th,
   Thead,
   Tr,
-  useBreakpointValue,
-  useDisclosure,
 } from "@chakra-ui/react";
-import DashboardBackground from "../../../assets/DashboardBackground.png";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
+import DashboardBg from "../../Shared/DashboardBackground/DashboardBg";
+import DashboardNoDataBg from "../../Shared/DashboardBackground/DashboardNoDataBg";
 
 const PaymentHistory = () => {
   const { user, loading } = useContext(AuthContext);
@@ -46,9 +43,6 @@ const PaymentHistory = () => {
     return dateB - dateA;
   });
 
-  const { isOpen } = useDisclosure();
-  const isDesktop = useBreakpointValue({ base: false, lg: true });
-
   const totalPrice = payments.reduce(
     (sum, classData) => classData.price + sum,
     0
@@ -60,16 +54,7 @@ const PaymentHistory = () => {
         <title>Camp Craftopia | Payment History</title>
       </Helmet>
       {payments?.length > 0 ? (
-        <Box
-          pt={150}
-          pb={20}
-          pl={isDesktop && isOpen ? "250px" : 0}
-          transition="padding-left 0.3s ease"
-          textAlign="center"
-          backgroundImage={`url(${DashboardBackground})`}
-          backgroundSize="cover"
-          height={payments.length < 5 ? "100vh" : "full"}
-        >
+        <DashboardBg applyPadding height={payments?.length > 0}>
           <Box>
             <Text fontSize="3xl" fontWeight="bold">
               Total Paid: ${totalPrice}
@@ -122,37 +107,10 @@ const PaymentHistory = () => {
               </Tbody>
             </Table>
           </TableContainer>
-        </Box>
+        </DashboardBg>
       ) : (
-        <Box
-          pt={150}
-          pb={20}
-          pl={isDesktop && isOpen ? "250px" : 0}
-          transition="padding-left 0.3s ease"
-          textAlign="center"
-          backgroundImage={`url(${DashboardBackground})`}
-          backgroundSize="cover"
-          height="100vh"
-        >
-          <Flex
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            h="100%"
-          >
-            <Text fontSize="3xl" fontWeight="bold" mb={4}>
-              You have not made any payment yet!
-            </Text>
-            <Text fontSize="xl" mb={6}>
-              Please enroll in some classes first.
-            </Text>
-            <Link to="/classes">
-              <Button fontSize="lg" textTransform="uppercase">
-                Go to Classes
-              </Button>
-            </Link>
-          </Flex>
-        </Box>
+        <DashboardNoDataBg title="You have not made any payment yet!" subTitle="Please enroll in some classes first." CTA="Go to Classes">    
+        </DashboardNoDataBg>
       )}
     </div>
   );

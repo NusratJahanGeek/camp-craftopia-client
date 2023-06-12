@@ -1,12 +1,12 @@
-import { Avatar, Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tooltip, Tr, useBreakpointValue, useDisclosure, useToast } from "@chakra-ui/react";
+import { Avatar, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tooltip, Tr, useToast } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { FaCheck, FaComment, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import DashboardBackground from "../../../assets/DashboardBackground.png";
 import useClasses from "../../../hooks/useClasses";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
 import FeedbackForm from "../../../components/FeedbackForm";
+import DashboardNoDataBg from "../../Shared/DashboardBackground/DashboardNoDataBg";
+import DashboardBg from "../../Shared/DashboardBackground/DashboardBg";
 
 const ManageClasses = () => {
   const [classes, , refetch] = useClasses();
@@ -18,9 +18,6 @@ const [selectedClass, setSelectedClass] = useState(null);
 
 
   const toast = useToast();
-  const { isOpen } = useDisclosure();
-
-  const isDesktop = useBreakpointValue({ base: false, lg: true });
 
   useEffect(() => {
     refetch(); 
@@ -90,17 +87,7 @@ const [selectedClass, setSelectedClass] = useState(null);
         <title>Camp Craftopia | My Classes</title>
       </Helmet>
       {classes?.length > 0 ? (
-        // Render class table if there are classes
-        <Box
-          pt={150}
-          pb={20}
-          pl={isDesktop && isOpen ? '250px' : 0}
-          transition="padding-left 0.3s ease"
-          textAlign="center"
-          backgroundImage={`url(${DashboardBackground})`}
-          backgroundSize="cover"
-          height={classes.length < 5 ? '100vh' : 'full'}
-        >
+        <DashboardBg dataLength={classes?.length} applyPadding>
           <Text fontSize="3xl" fontWeight="bold">
             Total Classes: {classes.length}
           </Text>
@@ -199,33 +186,10 @@ const [selectedClass, setSelectedClass] = useState(null);
               </Tbody>
             </Table>
           </TableContainer>
-        </Box>
+        </DashboardBg>
       ) : (
-        // Render placeholder message if there are no classes
-        <Box
-          pt={150}
-          pb={20}
-          pl={isDesktop && isOpen ? '250px' : 0}
-          transition="padding-left 0.3s ease"
-          textAlign="center"
-          backgroundImage={`url(${DashboardBackground})`}
-          backgroundSize="cover"
-          height="100vh"
-        >
-          <Flex flexDirection="column" alignItems="center" justifyContent="center" h="100%">
-            <Text fontSize="3xl" fontWeight="bold" mb={4}>
-              You have not added anything yet!
-            </Text>
-            <Text fontSize="xl" mb={6}>
-              Please add a class first.
-            </Text>
-            <Link to="/classes">
-              <Button fontSize="lg" textTransform="uppercase">
-                Go to Classes
-              </Button>
-            </Link>
-          </Flex>
-        </Box>
+       
+        <DashboardNoDataBg title="You have not added anything yet!" subTitle="Please add a class first." CTA="Go to Classes"></DashboardNoDataBg>
       )}
     </div>
   );

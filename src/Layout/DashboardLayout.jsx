@@ -1,4 +1,4 @@
-import { Box, Badge, Button, Flex, Text, useDisclosure, useBreakpointValue, DrawerContent, DrawerHeader, DrawerBody, Drawer, Avatar, Wrap, WrapItem, AvatarBadge, IconButton, Tooltip, VStack } from "@chakra-ui/react";
+import { Box, Badge, Button, Flex, Text, useDisclosure, useBreakpointValue, DrawerContent, DrawerHeader, DrawerBody, Drawer, Avatar, Wrap, WrapItem, AvatarBadge, IconButton, Tooltip, VStack, useColorMode } from "@chakra-ui/react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { AiOutlineUser } from "react-icons/ai";
@@ -10,8 +10,9 @@ import useUsers from "../hooks/useUsers";
 import useAdmin from "../hooks/useAdmin";
 import useInstructorDashboard from "../hooks/useInstructorDashboard";
 import useMyAddedClasses from "../hooks/useMyAddedClasses";
+import ThemeToggle from "../../ThemeToggle";
 
-const Dashboard = () => {
+const DashboardLayout = () => {
   const { user, logOut } = useContext(AuthContext);
   const [bookings] = useBookings();
   const [users] = useUsers();
@@ -27,6 +28,10 @@ const Dashboard = () => {
 
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const [initialOpen, setInitialOpen] = useState(false);
+
+  const { colorMode } = useColorMode();
+  const bgColor = colorMode === "dark" ? "#2D3748" : "#FFD9EC";
+  const textColor = colorMode === "dark" ? "#FFFFFF" : "#000";
 
   useEffect(() => {
     setInitialOpen(true);
@@ -46,6 +51,7 @@ const Dashboard = () => {
 
   const topMenu = (
     <Flex align="center">
+        
       {user ? (
         <>
           <Wrap marginRight={5}>
@@ -79,8 +85,8 @@ const Dashboard = () => {
   return (
     <div>
       <Flex
-        bg="#FFD9EC"
-        color="#000"
+         bg={bgColor}
+         color={textColor}
         py={4}
         justify="space-between"
         px={4}
@@ -114,7 +120,9 @@ const Dashboard = () => {
                 />
               </Tooltip>
             </Flex>
+            <ThemeToggle />
             <Box>{topMenu}</Box>
+        
           </>
         ) : (
           <>
@@ -135,6 +143,8 @@ const Dashboard = () => {
               </Tooltip>
             </Flex>
             <Box>{topMenu}</Box>
+<ThemeToggle />
+
           </>
         )}
       </Flex>
@@ -288,4 +298,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardLayout;

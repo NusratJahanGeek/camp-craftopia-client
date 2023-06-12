@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import {
   Avatar,
-  Box,
   Button,
   Flex,
   Table,
@@ -14,31 +13,22 @@ import {
   Thead,
   Tooltip,
   Tr,
-  useBreakpointValue,
-  useDisclosure,
   useToast,
   Center,
   CircularProgress,
 } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
-import DashboardBackground from "../../../assets/DashboardBackground.png";
-import {
-  FaChalkboardTeacher,
-  FaTrash,
-  FaUserLock,
-} from "react-icons/fa";
+import { FaChalkboardTeacher, FaTrash, FaUserLock } from "react-icons/fa";
 import Swal from "sweetalert2";
+import DashboardBg from "../../Shared/DashboardBackground/DashboardBg";
 
 const ManageUsers = () => {
-
   const [axiosSecure] = useAxiosSecure();
   const { data: users = [], refetch } = useQuery(["users"], async () => {
     const res = await axiosSecure.get("/users");
     return res.data;
   });
 
-  const { isOpen } = useDisclosure();
-  const isDesktop = useBreakpointValue({ base: false, lg: true });
   const toast = useToast();
 
   const handleMakeAdmin = (user) => {
@@ -75,9 +65,12 @@ const ManageUsers = () => {
   };
 
   const handleMakeInstructor = (user) => {
-    fetch(`https://camp-craftopia-server.vercel.app/users/instructor/${user._id}`, {
-      method: "PATCH",
-    })
+    fetch(
+      `https://camp-craftopia-server.vercel.app/users/instructor/${user._id}`,
+      {
+        method: "PATCH",
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -139,111 +132,119 @@ const ManageUsers = () => {
   };
 
   return (
-    <Box
-      pt={150}
-      pb={20}
-      pl={isDesktop && isOpen ? "250px" : 0}
-      transition="padding-left 0.3s ease"
-      textAlign="center"
-      backgroundImage={`url(${DashboardBackground})`}
-      backgroundSize="cover"
-      height={users.length < 5 ? "100vh" : "full"}
-    >
+    <div>
       <Helmet>
         <title>Camp Craftopia | Manage Users</title>
       </Helmet>
+      <DashboardBg dataLength={users?.length} applyPadding>
       <Text fontSize="3xl" fontWeight="bold">
         Total Users: {users.length}
       </Text>
-
-      <TableContainer mt={12} w={["100%", "100%", "90%"]} mx="auto">
-        <Table>
-          <Thead fontSize="34px">
-            <Tr>
-              <Th fontSize="md" textAlign="center">
-                #
-              </Th>
-              <Th fontSize="md" textAlign="center">
-                User Name
-              </Th>
-              <Th fontSize="md" textAlign="center">
-                Role
-              </Th>
-              <Th fontSize="md" textAlign="center">
-                Email
-              </Th>
-              <Th fontSize="md" textAlign="center">
-                Phone
-              </Th>
-              <Th fontSize="md" textAlign="center">
-                Address
-              </Th>
-              <Th fontSize="md" textAlign="center">
-                Gender
-              </Th>
-              <Th fontSize="md" textAlign="center">
-                Action
-              </Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {users.length > 0 ? (
-              users.map((user, index) => (
-                <Tr align="center" key={user._id}>
-                  <Td>{index + 1}</Td>
-                  <Td textAlign="center">
-                    <Flex alignItems="center">
-                      <Avatar name={user.name} src={user.photo} mr={2} />
-                      {user.name}
-                    </Flex>
-                  </Td>
-                  <Td
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                       <Tooltip label="Make Instructor" hasArrow bg='gray.300' color='black' fontSize='md' placement="right">
-                    <Button
-                      onClick={() => handleMakeInstructor(user)}
-                      isDisabled={user.role === "instructor"}
+        <TableContainer mt={12} w={["100%", "100%", "90%"]} mx="auto">
+          <Table>
+            <Thead fontSize="34px">
+              <Tr>
+                <Th fontSize="md" textAlign="center">
+                  #
+                </Th>
+                <Th fontSize="md" textAlign="center">
+                  User Name
+                </Th>
+                <Th fontSize="md" textAlign="center">
+                  Update Role
+                </Th>
+                <Th fontSize="md" textAlign="center">
+                  Email
+                </Th>
+                <Th fontSize="md" textAlign="center">
+                  Phone
+                </Th>
+                <Th fontSize="md" textAlign="center">
+                  Address
+                </Th>
+                <Th fontSize="md" textAlign="center">
+                  Gender
+                </Th>
+                <Th fontSize="md" textAlign="center">
+                  Action
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {users.length > 0 ? (
+                users.map((user, index) => (
+                  <Tr align="center" key={user._id}>
+                    <Td>{index + 1}</Td>
+                    <Td textAlign="center">
+                      <Flex alignItems="center">
+                        <Avatar name={user.name} src={user.photo} mr={2} />
+                        {user.name}
+                      </Flex>
+                    </Td>
+                    <Td
+                      mt={2}
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      gap={3}
                     >
-                      <FaChalkboardTeacher />
-                    </Button>
-                    </Tooltip>
-                    <Tooltip label="Make Admin" hasArrow bg='gray.300' color='black' fontSize='md' placement="right">
-                    <Button
-                      onClick={() => handleMakeAdmin(user)}
-                      isDisabled={user.role === "admin"}
-                    >
-                      <FaUserLock />
-                    </Button>
-                    </Tooltip>
-                  </Td>
+                      <Tooltip
+                        label="Make Instructor"
+                        hasArrow
+                        bg="gray.300"
+                        color="black"
+                        fontSize="md"
+                        placement="right"
+                      >
+                        <Button
+                          onClick={() => handleMakeInstructor(user)}
+                          isDisabled={user.role === "instructor"}
+                        >
+                          <FaChalkboardTeacher />
+                        </Button>
+                      </Tooltip>
+                      <Tooltip
+                        label="Make Admin"
+                        hasArrow
+                        bg="gray.300"
+                        color="black"
+                        fontSize="md"
+                        placement="right"
+                      >
+                        <Button
+                          onClick={() => handleMakeAdmin(user)}
+                          isDisabled={user.role === "admin"}
+                        >
+                          <FaUserLock />
+                        </Button>
+                      </Tooltip>
+                    </Td>
 
-                  <Td textAlign="center">{user?.email}</Td>
-                  <Td textAlign="center">{user?.phone || "Not Found"}</Td>
-                  <Td textAlign="center">{user?.address || "Not Found"}</Td>
-                  <Td textAlign="center">{user?.gender || "Not Found"}</Td>
-                  <Td>
-                    <Button onClick={() => handleDelete(user)}>
-                      <FaTrash />
-                    </Button>
+                    <Td textAlign="center">{user?.email}</Td>
+                    <Td textAlign="center">{user?.phone || "Not Found"}</Td>
+                    <Td textAlign="center">{user?.address || "Not Found"}</Td>
+                    <Td textAlign="center">{user?.gender || "Not Found"}</Td>
+                    <Td>
+                      <Button onClick={() => handleDelete(user)}>
+                        <FaTrash />
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))
+              ) : (
+                <Tr>
+                  <Td colSpan={8} textAlign="center">
+                    <Center marginTop={55} marginBottom={55}>
+                      <CircularProgress isIndeterminate color="#FF6B6B" />
+                    </Center>
                   </Td>
                 </Tr>
-              ))
-            ) : (
-              <Tr>
-                <Td colSpan={8} textAlign="center">
-                  <Center marginTop={55} marginBottom={55}>
-                    <CircularProgress isIndeterminate color="#FF6B6B" />
-                  </Center>
-                </Td>
-              </Tr>
-            )}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </Box>
+              )}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </DashboardBg>
+    </div>
   );
 };
 

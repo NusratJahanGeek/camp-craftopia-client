@@ -1,4 +1,4 @@
-import { Heading, Text, Box } from "@chakra-ui/react";
+import { Heading, Text, useColorMode, Button } from "@chakra-ui/react";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { useState } from "react";
@@ -9,10 +9,10 @@ import banner4 from "../../../assets/Banner4.jpg";
 import { Typewriter } from "react-simple-typewriter";
 import "./Hero.css";
 
-const images = [banner1, banner2, banner3, banner4];
+const images = [banner4, banner3, banner2, banner1];
 
 const Hero = () => {
-  const [details, setDetails] = useState(null);
+  const [, setDetails] = useState(null);
 
   const [sliderRef] = useKeenSlider({
     loop: true,
@@ -22,17 +22,11 @@ const Hero = () => {
     initial: 2,
   });
 
+  const { colorMode } = useColorMode();
 
-  function scaleStyle(idx) {
-    if (!details) return {};
-    const slide = details.slides[idx];
-    const scale_size = 0.7;
-    const scale = 1 - (scale_size - scale_size * slide.portion);
-    return {
-      transform: `scale(${scale})`,
-      WebkitTransform: `scale(${scale})`,
-    };
-  }
+  const overlayBgColor = colorMode === "dark" ? "#000000bf" : "#dededecf";
+  const overlayTextColor = colorMode === "dark" ? "#FFFFFF" : "#000000";
+
 
   return (
     <div className="banner-slider-container">
@@ -41,14 +35,18 @@ const Hero = () => {
           <div key={idx} className="keen-slider__slide zoom-out__slide">
             <div style={{ position: "relative" }}>
               <img src={src} alt={`Banner ${idx + 1}`} />
-              <div className="color-overlay">
+              <div
+                className="color-overlay"
+                style={{ backgroundColor: overlayBgColor, color: overlayTextColor }}
+              >
                 <div className="text-overlay">
-                  <Heading as="h1" size="4xl" mb={8}>
+                  <Heading as="h1" size="4xl" mb={8} color={overlayTextColor}>
                     Discover the Art of Crafting
                   </Heading>
                   <Text
                     style={{ fontSize: "1.3rem" }}
                     fontSize={{ base: "1rem", md: "1.3rem" }}
+                    color={overlayTextColor}
                   >
                     Unleash your{" "}
                     <Typewriter
@@ -66,16 +64,14 @@ const Hero = () => {
                       delaySpeed={1000}
                     />
                   </Text>
-                  <Box
-                    as="button"
-                    className="cta-button"
+                  <Button
                     mt={{ base: 4, md: 8 }}
-                    px={4}
-                    py={2}
-                    fontSize={{ base: "0.9rem", md: "1rem" }}
+                    px={6}
+                    py={4}
+                    size="4xl"
                   >
                     Start Crafting Today!
-                  </Box>
+                  </Button>
                 </div>
               </div>
             </div>

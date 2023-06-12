@@ -1,23 +1,18 @@
-import { Box, Button, Flex, Text, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useColorMode } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
-import DashboardBackground from "../../assets/DashboardBackground.png"
+import backgroundLight from "../../assets/DashboardBackground.png"
+import backgroundDark from "../../assets/backgroundDark.png"
 import { Link } from "react-router-dom";
 
 const NotFound = () => {
-
-    const { isOpen } = useDisclosure();
-    const isDesktop = useBreakpointValue({ base: false, md: true });
-  
-    const paddingXValue = useBreakpointValue({ base: "0", md: isDesktop && isOpen ? "250px" : "420px" });
+    const { colorMode } = useColorMode();
+    const DashboardBackground = colorMode === "light" ? backgroundLight : backgroundDark;
 
     return (
         <Box
-      display="flex"
-      flexDirection="column"
+      display="flex"   
       justifyContent="center"
       alignItems="center"
-      pl={isDesktop && isOpen ? "250px" : 0}
-      transition="padding-left 0.3s ease"
       textAlign="center"
       backgroundImage={`url(${DashboardBackground})`}
       backgroundSize="cover"
@@ -46,6 +41,7 @@ const NotFound = () => {
             </Link>
           </Flex>
         </Box>
+      
     );
 };
 

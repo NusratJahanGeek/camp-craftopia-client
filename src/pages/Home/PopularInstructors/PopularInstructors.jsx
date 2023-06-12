@@ -1,4 +1,4 @@
-import { Button, SimpleGrid, useMediaQuery } from "@chakra-ui/react";
+import { Button, SimpleGrid, useColorMode, useMediaQuery } from "@chakra-ui/react";
 import SectionTitle from "../../../components/SectionTitle";
 import TopInstructors from "../../Shared/TopInstructors/TopInstructors";
 import { useEffect, useState } from "react";
@@ -8,6 +8,10 @@ const PopularInstructors = () => {
   const instructorData = useInstructorData();
   const [topInstructors, setTopInstructors] = useState([]);
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
+
+  const { colorMode } = useColorMode();
+
+  const backgroundColor = colorMode === "dark" ? "#2D3748" : "#FFD9EC";
 
   useEffect(() => {
     if (instructorData.length > 0) {
@@ -27,7 +31,7 @@ const PopularInstructors = () => {
     >
       <div
         style={{
-          backgroundColor: "#FFD9EC",
+          backgroundColor,
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
           padding: "0 40px 40px",
           borderRadius: "150px 150px 20px 20px",

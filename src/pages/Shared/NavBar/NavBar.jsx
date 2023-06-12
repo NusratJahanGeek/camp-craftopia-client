@@ -17,24 +17,30 @@ import {
   Avatar,
   AvatarBadge,
   Badge,
+  useColorMode,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import logo from "../../../assets/Camp Craftopia.png";
 import { AiOutlineUser } from 'react-icons/ai';
-import useBookings from "../../../hooks/useBookings";
 import useAdmin from "../../../hooks/useAdmin"
 import useInstructorDashboard from "../../../hooks/useInstructorDashboard"
 import useStudentDashboard from "../../../hooks/useStudentDashboard"
+import ThemeToggle from "../../../../ThemeToggle";
+
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
-  const [bookings] = useBookings();
   const [isAdmin] = useAdmin();
   const [isInstructor] = useInstructorDashboard();
   const [isStudent] = useStudentDashboard();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const mxValue = useBreakpointValue({ base: 0, lg: 84 });
+
+  const { colorMode } = useColorMode();
+
+  const bgColor = colorMode === "dark" ? "#2D3748" : "#FFD9EC";
+  const textColor = colorMode === "dark" ? "#FFFFFF" : "#000";
 
   const handleLogOut = () => {
     logOut()
@@ -89,13 +95,18 @@ const NavBar = () => {
   );
 
   return (
-    <Box align="center" mt={2}>
-      <img src={logo} width={100} alt="" />
+    <Box align="center" mt={2}>          
+       <Flex justifyContent="space-between" alignItems="start">
+  <Box mx="auto">
+    <img src={logo} width={100} alt="" />
+  </Box>
+  <ThemeToggle />
+</Flex>
       {isDesktop ? (
         <Flex
           position="relative"
-          bg="#FFD9EC"
-          color="#000"
+          bg={bgColor}
+          color={textColor}
           py={4}
           mt={3}
           mb={-5}
@@ -107,6 +118,7 @@ const NavBar = () => {
         >
           {navOptions}
         </Flex>
+        
       ) : (
         <Box
           position="fixed"

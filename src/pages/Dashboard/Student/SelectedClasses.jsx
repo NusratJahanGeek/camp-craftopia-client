@@ -1,18 +1,14 @@
 import Swal from "sweetalert2";
-import { Avatar, Box, Button, Flex, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue, useDisclosure, useToast } from "@chakra-ui/react";
-import DashboardBackground from "../../../assets/DashboardBackground.png";
+import { Avatar, Button, Flex, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useToast } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import useBookings from "../../../hooks/useBookings";
 import { FaFileInvoiceDollar, FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import DashboardNoDataBg from "../../Shared/DashboardBackground/DashboardNoDataBg";
+import DashboardBg from "../../Shared/DashboardBackground/DashboardBg";
 
 const SelectedClasses = () => {
   const [bookings, refetch] = useBookings();
   const toast = useToast();
-  const { isOpen } = useDisclosure();
-  const isDesktop = useBreakpointValue({ base: false, lg: true });
-
-  //const totalPrice = bookings.reduce((sum, classData) => classData.price + sum, 0);
 
   const handlePayButtonClick = (classData) => {
     const selectedClassData = JSON.stringify(classData);
@@ -57,16 +53,7 @@ const SelectedClasses = () => {
         <title>Camp Craftopia | Selected Classes</title>
       </Helmet>
       {bookings?.length > 0 ? (
-        <Box
-          pt={150}
-          pb={20}
-          pl={isDesktop && isOpen ? "250px" : 0}
-          transition="padding-left 0.3s ease"
-          textAlign="center"
-          backgroundImage={`url(${DashboardBackground})`}
-          backgroundSize="cover"
-          height={bookings.length < 5 ? "100vh" : "full"}
-        >
+        <DashboardBg dataLength={bookings?.length} applyPadding>
           <Flex justifyContent="center" alignItems="center" gap={8}>
             <Text fontSize="3xl" fontWeight="bold">
               Wishlist Items: {bookings.length}
@@ -128,23 +115,10 @@ const SelectedClasses = () => {
               </Tbody>
             </Table>
           </TableContainer>
-        </Box>
+        </DashboardBg>
       ) : (
-        <Box pt={150} pb={20} pl={isDesktop && isOpen ? "250px" : 0} transition="padding-left 0.3s ease" textAlign="center" backgroundImage={`url(${DashboardBackground})`} backgroundSize="cover" height="100vh">
-          <Flex flexDirection="column" alignItems="center" justifyContent="center" h="100%">
-            <Text fontSize="3xl" fontWeight="bold" mb={4}>
-              You have not selected anything yet!
-            </Text>
-            <Text fontSize="xl" mb={6}>
-              Please select some classes first.
-            </Text>
-            <Link to="/classes">
-              <Button fontSize="lg" textTransform="uppercase">
-                Go to Classes
-              </Button>
-            </Link>
-          </Flex>
-        </Box>
+        <DashboardNoDataBg title="You have not selected anything yet!" subTitle="Please select some classes first." CTA="Go to Classes">
+             </DashboardNoDataBg>
       )}
     </div>
   );

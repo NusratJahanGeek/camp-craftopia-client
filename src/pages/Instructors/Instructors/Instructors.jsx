@@ -1,12 +1,16 @@
 import { Helmet } from "react-helmet-async";
-import { Heading, Text, Button } from "@chakra-ui/react";
+import { Heading, Text, Button, useColorMode } from "@chakra-ui/react";
 import Banner from "../../Shared/Banner/Banner";
 import bannerImg from "../../../assets/Banner1.jpg";
 import useInstructorData from "../../../hooks/useInstructorData";
-import background from "../../../assets/DashboardBackground.png";
+import backgroundLight from "../../../assets/DashboardBackground.png";
+import backgroundDark from "../../../assets/backgroundDark.png"
 
 const Instructors = () => {
   const instructorData = useInstructorData();
+
+  const { colorMode } = useColorMode();
+  const background = colorMode === "light" ? backgroundLight : backgroundDark;
 
   return (
     <div
