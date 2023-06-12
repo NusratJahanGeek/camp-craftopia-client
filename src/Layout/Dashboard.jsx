@@ -1,5 +1,4 @@
-import { Box, Badge, Button, Flex, Text, useDisclosure,
-  useBreakpointValue, DrawerContent, DrawerHeader, DrawerBody, Drawer, Avatar, Wrap, WrapItem, AvatarBadge, IconButton, Tooltip, VStack } from "@chakra-ui/react";
+import { Box, Badge, Button, Flex, Text, useDisclosure, useBreakpointValue, DrawerContent, DrawerHeader, DrawerBody, Drawer, Avatar, Wrap, WrapItem, AvatarBadge, IconButton, Tooltip, VStack } from "@chakra-ui/react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { AiOutlineUser } from "react-icons/ai";
@@ -16,11 +15,12 @@ const Dashboard = () => {
   const { user, logOut } = useContext(AuthContext);
   const [bookings] = useBookings();
   const [users] = useUsers();
-  const [addedClasses] = useMyAddedClasses();
-
+  
   const [isAdmin] = useAdmin();
   const [isInstructor] = useInstructorDashboard();
-
+  
+  const [addedClasses] = useMyAddedClasses();
+  
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -190,7 +190,7 @@ const Dashboard = () => {
                       />
                       <Text>Manage Classes</Text>
                       <Badge colorScheme="orange" ml={2} py={1}>
-                        + {bookings?.length || null}
+                        + {bookings?.length || 0}
                       </Badge>
                     </Flex>
                   </Text>
@@ -235,11 +235,10 @@ const Dashboard = () => {
                       />
                       <Text>My Classes</Text>
                       <Badge colorScheme="orange" ml={2} py={1}>
-                        + {addedClasses?.length || null}
+                        + {addedClasses?.length || 0}
                       </Badge>
                     </Flex>
                   </Text>
-
                 </>
              ) : (
                 <>
@@ -260,7 +259,7 @@ const Dashboard = () => {
                       />
                       <Text>My Selected Classes</Text>
                       <Badge colorScheme="orange" ml={2} py={1}>
-                        + {bookings?.length || null}
+                        + {bookings?.length || 0}
                       </Badge>
                     </Flex>
                   </Text>

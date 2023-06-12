@@ -1,4 +1,27 @@
-import { Avatar, Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue, useDisclosure, useToast } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useBreakpointValue,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -9,10 +32,9 @@ import useMyAddedClasses from "../../../hooks/useMyAddedClasses";
 import { useState } from "react";
 
 const MyClasses = () => {
-
   const [axiosSecure] = useAxiosSecure();
-  const [addedClasses] = useMyAddedClasses();
-  
+  const [addedClasses, refetch] = useMyAddedClasses();
+
   const [selectedClass, setSelectedClass] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -32,8 +54,8 @@ const MyClasses = () => {
 
     axiosSecure
       .put(`/my-classes/${classData._id}`, updatedClassData)
-      .then((res) => {
-        console.log("Updated Response", res.data);
+      .then(() => {
+        refetch();
         toast({
           title: "Done!",
           description: "You've successfully updated the class details.",
@@ -70,9 +92,9 @@ const MyClasses = () => {
           backgroundSize="cover"
           height={addedClasses.length < 5 ? "100vh" : "full"}
         >
-            <Text fontSize="3xl" fontWeight="bold">
-              Total Classes: {addedClasses.length}
-            </Text>
+          <Text fontSize="3xl" fontWeight="bold">
+            Total Classes: {addedClasses.length}
+          </Text>
           <TableContainer mt={12} w={["100%", "100%", "80%"]} mx="auto">
             <Table>
               <Thead fontSize="34px">
@@ -103,42 +125,61 @@ const MyClasses = () => {
                   </Th>
                 </Tr>
               </Thead>
-             <Tbody>
-            {addedClasses.map((classData, index) => (
-              <Tr align="center" key={classData._id}>
-                <Td>{index + 1}</Td>
-                <Td textAlign="center">
-                  <Flex alignItems="center">
-                    <Avatar name={classData.name} src={classData.image} mr={2} />
-                    {classData.name}
-                  </Flex>
-                </Td>
-                <Td textAlign="center">${classData.price}</Td>
-                <Td textAlign="center">{classData.availableSeats}</Td>
-                <Td textAlign="center">{classData.totalStudents || 0}</Td>
-                <Td textAlign="center">{classData.status}</Td>
-                <Td textAlign="center">{classData.feedback || null}</Td>
-                <Td>
-                  <Button onClick={() => handleOpenUpdateModal(classData)} textTransform="uppercase">
-                    <FaEdit />
-                  </Button>
-                  <Modal isOpen={isOpen && selectedClass === classData} onClose={onClose}>
-                    <ModalOverlay />
-                    <ModalContent>
-                      <ModalHeader>Update Class</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody>
-                        <UpdateClassForm classData={classData} onUpdate={handleUpdate} />
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button onClick={onClose}>Close</Button>
-                      </ModalFooter>
-                    </ModalContent>
-                  </Modal>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
+              <Tbody>
+                {addedClasses.map((classData, index) => (
+                  <Tr align="center" key={classData._id}>
+                    <Td>{index + 1}</Td>
+                    <Td textAlign="center">
+                      <Flex alignItems="center">
+                        <Avatar
+                          name={classData.name}
+                          src={classData.image}
+                          mr={2}
+                        />
+                        {classData.name}
+                      </Flex>
+                    </Td>
+                    <Td textAlign="center">${classData.price}</Td>
+                    <Td textAlign="center">{classData.availableSeats}</Td>
+                    <Td textAlign="center">{classData.totalStudents || 0}</Td>
+                    <Td textAlign="center">{classData.status}</Td>
+                    <Td textAlign="center" whiteSpace="normal" lineHeight={1.5}>
+                      {classData.status === "Denied" && (
+                        <Box maxW="150px" mx="auto" overflowWrap="break-word">
+                          <Text>{classData.feedback || null}</Text>
+                        </Box>
+                      )}
+                    </Td>
+                    <Td>
+                      <Button
+                        onClick={() => handleOpenUpdateModal(classData)}
+                        textTransform="uppercase"
+                      >
+                        <FaEdit />
+                      </Button>
+                      <Modal
+                        isOpen={isOpen && selectedClass === classData}
+                        onClose={onClose}
+                      >
+                        <ModalOverlay />
+                        <ModalContent>
+                          <ModalHeader>Update Class</ModalHeader>
+                          <ModalCloseButton />
+                          <ModalBody>
+                            <UpdateClassForm
+                              classData={classData}
+                              onUpdate={handleUpdate}
+                            />
+                          </ModalBody>
+                          <ModalFooter>
+                            <Button onClick={onClose}>Close</Button>
+                          </ModalFooter>
+                        </ModalContent>
+                      </Modal>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
             </Table>
           </TableContainer>
         </Box>
@@ -153,7 +194,12 @@ const MyClasses = () => {
           backgroundSize="cover"
           height="100vh"
         >
-          <Flex flexDirection="column" alignItems="center" justifyContent="center" h="100%">
+          <Flex
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            h="100%"
+          >
             <Text fontSize="3xl" fontWeight="bold" mb={4}>
               You have not added anything yet!
             </Text>

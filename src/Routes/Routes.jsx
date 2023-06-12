@@ -23,6 +23,7 @@ import MakePayment from "../pages/Dashboard/Student/MakePayment";
 import StudentRoute from "./StudentRoute";
 import EnrolledClasses from "../pages/Dashboard/Student/EnrolledClasses";
 import PaymentHistory from "../pages/Dashboard/Student/PaymentHistory";
+import NotFoundLayout from "../Layout/NotFoundLayout";
 
   export const router = createBrowserRouter([
     {
@@ -109,5 +110,9 @@ import PaymentHistory from "../pages/Dashboard/Student/PaymentHistory";
           element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
         }
       ]
+    },
+    {
+      path: "*",
+      element: <NotFoundLayout></NotFoundLayout>
     }
   ]);

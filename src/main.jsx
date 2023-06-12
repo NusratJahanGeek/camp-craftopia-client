@@ -39,11 +39,17 @@ const customTheme = extendTheme({
       defaultProps: {
         _disabled: {
           opacity: 0.5,
+          _hover: {
+            bg: "#ff6b6b",
+            opacity: 0.5,
+          },
         },
       },
     },
   },
 });
+
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider theme={customTheme}>

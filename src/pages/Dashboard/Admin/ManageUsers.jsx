@@ -25,6 +25,7 @@ const ManageUsers = () => {
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         if (data.modifiedCount) {
           refetch();
           toast({
@@ -64,6 +65,7 @@ const ManageUsers = () => {
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         if (data.modifiedCount) {
           refetch();
           toast({

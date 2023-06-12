@@ -11,6 +11,8 @@ const UpdateClassForm = ({ classData, onUpdate }) => {
 
   const handleUpdateClass = () => {
     const updatedData = {
+      name,
+      image,
       price,
       availableSeats,
     };
@@ -31,22 +33,22 @@ const UpdateClassForm = ({ classData, onUpdate }) => {
     <div>
       <FormControl mt={4}>
         <FormLabel>Class Name</FormLabel>
-        <Input type="name" value={name} onChange={(e) => setName(e.target.value)} />
+        <Input type="name" value={name} focusBorderColor="#FF6B6B" onChange={(e) => setName(e.target.value)} />
       </FormControl>
 
       <FormControl mt={4}>
         <FormLabel>Image URL</FormLabel>
-        <Input type="text" value={image} onChange={(e) => setImage(e.target.value)} />
+        <Input type="text" value={image} focusBorderColor="#FF6B6B" onChange={(e) => setImage(e.target.value)} />
       </FormControl>
 
       <FormControl>
         <FormLabel>Price</FormLabel>
-        <Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+        <Input type="number" value={price} focusBorderColor="#FF6B6B" onChange={(e) => setPrice(e.target.value)} />
       </FormControl>
       
       <FormControl mt={4}>
         <FormLabel>Available Seats</FormLabel>
-        <Input type="number" value={availableSeats} onChange={(e) => setAvailableSeats(e.target.value)} />
+        <Input type="number" value={availableSeats} focusBorderColor="#FF6B6B" onChange={(e) => setAvailableSeats(e.target.value)} />
       </FormControl>
       <Button mt={4} onClick={handleUpdateClass}>
         Update
