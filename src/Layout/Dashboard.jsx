@@ -189,9 +189,6 @@ const Dashboard = () => {
                         mr={5}
                       />
                       <Text>Manage Classes</Text>
-                      <Badge colorScheme="orange" ml={2} py={1}>
-                        + {bookings?.length || 0}
-                      </Badge>
                     </Flex>
                   </Text>
                   <Text as={NavLink} to="/dashboard/manage-users">

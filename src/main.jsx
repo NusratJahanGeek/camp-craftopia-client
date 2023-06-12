@@ -38,7 +38,7 @@ const customTheme = extendTheme({
       },
       defaultProps: {
         _disabled: {
-          opacity: 0.5,
+          opacity: 0.7,
           _hover: {
             bg: "#ff6b6b",
             opacity: 0.5,
