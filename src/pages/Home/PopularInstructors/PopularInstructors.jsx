@@ -1,8 +1,10 @@
 import { Button, SimpleGrid, useColorMode, useMediaQuery } from "@chakra-ui/react";
 import SectionTitle from "../../../components/SectionTitle";
-import TopInstructors from "../../Shared/TopInstructors/TopInstructors";
+import TopInstructors from "./TopInstructors";
 import { useEffect, useState } from "react";
 import useInstructorData from "../../../hooks/useInstructorData";
+import { motion } from "framer-motion"
+import { Link } from "react-router-dom";
 
 const PopularInstructors = () => {
   const instructorData = useInstructorData();
@@ -37,6 +39,12 @@ const PopularInstructors = () => {
           borderRadius: "150px 150px 20px 20px",
         }}
       >
+        <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.5 }}
+      transition={{ duration: 0.5 }}
+    >
         <SectionTitle
           heading={"Meet Our Expert Instructors"}
           subHeading={"Learn from the Best in the Field"}
@@ -50,11 +58,16 @@ const PopularInstructors = () => {
           ))}
         </SimpleGrid>
         <div style={{ margin: "auto", maxWidth: "300px", width: "100%" }}>
+          <Link to="/instructors">
           <Button size="lg" padding={4} marginTop={8} width="100%">
-            View Details
+            See All
           </Button>
+          </Link>
         </div>
+     
+        </motion.div>
       </div>
+  
     </div>
   );
 };

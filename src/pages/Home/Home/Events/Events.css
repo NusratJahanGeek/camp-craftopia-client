@@ -1,0 +1,38 @@
+.event-item {
+  cursor: pointer;
+  padding: 18px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.selected-event {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  z-index: 10;
+}
+
+.selected-event div {
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.selected-event button {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

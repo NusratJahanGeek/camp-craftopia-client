@@ -4,7 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+body{
+  overflow-x: hidden !important;
+}
 
 ::selection {
     color: #FF6B6B; /* Replace with your desired color */

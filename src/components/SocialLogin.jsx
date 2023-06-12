@@ -21,7 +21,7 @@ const SocialLogin = () => {
       if (!loggedInUser.role) {
         savedUser.role = "student";
       }
-      fetch('https://camp-craftopia-server.vercel.app/users', {
+      fetch('http://localhost:5000/users', {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
@@ -51,7 +51,7 @@ const SocialLogin = () => {
       if (!loggedInUser.role) {
         savedUser.role = "student";
       }
-      fetch('https://camp-craftopia-server.vercel.app/users', {
+      fetch('http://localhost:5000/users', {
         method: 'POST',
         headers: {
           'content-type': 'application/json'

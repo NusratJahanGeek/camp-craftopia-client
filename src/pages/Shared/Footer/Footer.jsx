@@ -12,8 +12,8 @@ const Footer = () => {
     <>
       <hr style={{ borderColor: "#FFD9EC", opacity: 1, borderWidth: "2px" }} />
       <Box bg={bgColor} color={textColor}  py={20}>
-        <Grid
-          templateColumns="1fr 1fr 1fr"
+      <Grid
+          templateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
           gap={6}
           alignItems="start"
           justifyItems="center"
@@ -37,7 +37,7 @@ const Footer = () => {
               </a>
             </Flex>
           </Box>
-          <Box style={{ lineHeight: "28px" }}>
+          <Box style={{ lineHeight: "28px" }} textAlign="center">
             <Text fontSize="lg" fontWeight="bold" marginBottom="6px">
               Company
             </Text>
@@ -45,7 +45,7 @@ const Footer = () => {
             <p>Terms of Use</p>
             <p>Privacy Policy</p>
           </Box>
-          <Box style={{ lineHeight: "28px" }}>
+          <Box style={{ lineHeight: "28px" }} textAlign="center">
           <Text fontSize="lg" fontWeight="bold" marginBottom="6px">
               Support
             </Text>
@@ -56,7 +56,7 @@ const Footer = () => {
         </Grid>
       </Box>
       <Box align="center">
-        <Text py={4}>
+        <Text pb={8}>
           &copy; {new Date().getFullYear()} Camp Craftopia
         </Text>
       </Box>

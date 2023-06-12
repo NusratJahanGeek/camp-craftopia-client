@@ -91,7 +91,7 @@ const [selectedClass, setSelectedClass] = useState(null);
           <Text fontSize="3xl" fontWeight="bold">
             Total Classes: {classes.length}
           </Text>
-          <TableContainer mt={12} w={['100%', '100%', '100%']} mx="auto" px={8}>
+          <TableContainer mt={12} w={['100%', '100%', '100%']} mx="auto" px={4}>
             <Table>
               <Thead fontSize="34px">
                 <Tr>

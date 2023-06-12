@@ -66,7 +66,7 @@ const Registration = () => {
             gender: data.gender,
             role: userRole,
           };
-          fetch("https://camp-craftopia-server.vercel.app/users", {
+          fetch("http://localhost:5000/users", {
             method: "POST",
             headers: {
               "content-type": "application/json",

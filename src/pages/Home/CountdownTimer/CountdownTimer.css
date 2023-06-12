@@ -1,0 +1,18 @@
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .countdown-value {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .countdown-timer {
+    background-color: #f6dfeb;
+    border-radius: 50%;
+    padding: 20px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  

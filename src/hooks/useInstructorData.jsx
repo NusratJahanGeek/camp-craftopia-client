@@ -12,7 +12,7 @@ const useInstructorData = () => {
       const combinedData = instructors.map((instructor) => {
         const { _id, name, image, email } = instructor;
         const instructorClasses = classes.filter(
-          (classData) => classData.instructor === name
+          (classData) => classData.instructor === name && classData.status === "Approved"
         );
         
         const totalStudents = instructorClasses.reduce(
@@ -27,7 +27,7 @@ const useInstructorData = () => {
           email,
           totalClasses: instructorClasses.length,
           totalStudents,
-          classes: instructorClasses.map((classData) => classData.name), // Update to include class objects
+          classes: instructorClasses.map((classData) => classData.name),
         };
       });
 

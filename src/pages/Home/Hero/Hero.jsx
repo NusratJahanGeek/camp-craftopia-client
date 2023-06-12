@@ -8,6 +8,7 @@ import banner3 from "../../../assets/Banner3.jpg";
 import banner4 from "../../../assets/Banner4.jpg";
 import { Typewriter } from "react-simple-typewriter";
 import "./Hero.css";
+import { Link } from "react-router-dom";
 
 const images = [banner4, banner3, banner2, banner1];
 
@@ -26,7 +27,6 @@ const Hero = () => {
 
   const overlayBgColor = colorMode === "dark" ? "#000000bf" : "#dededecf";
   const overlayTextColor = colorMode === "dark" ? "#FFFFFF" : "#000000";
-
 
   return (
     <div className="banner-slider-container">
@@ -64,6 +64,7 @@ const Hero = () => {
                       delaySpeed={1000}
                     />
                   </Text>
+                  <Link to="/classes">
                   <Button
                     mt={{ base: 4, md: 8 }}
                     px={6}
@@ -72,6 +73,7 @@ const Hero = () => {
                   >
                     Start Crafting Today!
                   </Button>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -53,9 +53,6 @@ const NavBar = () => {
       <Text as={NavLink} to="/" mx={5}>
         Home
       </Text>
-      <Text as={NavLink} to="/about" mx={5}>
-        About
-      </Text>
       <Text as={NavLink} to="/instructors" mx={5}>
         Instructors
       </Text>

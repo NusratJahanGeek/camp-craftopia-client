@@ -1,5 +1,6 @@
 import { Flex, Text, useBreakpointValue } from "@chakra-ui/react";
 import Arrow from "../../src/assets/arrow.svg";
+import { motion } from "framer-motion";
 
 const SectionTitle = ({ heading, subHeading }) => {
   const headingFontSize = useBreakpointValue({ base: "4xl", md: "5xl" });
@@ -19,14 +20,15 @@ const SectionTitle = ({ heading, subHeading }) => {
           alt=""
         />
       </Flex>
+      <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
       <Text
         mt={-4}
         fontSize={headingFontSize}
         fontFamily="heading"
-        fontWeight="bold"
-      >
+        fontWeight="bold">
         {heading}
       </Text>
+      </motion.div>
     </div>
   );
 };
