@@ -35,8 +35,8 @@ const PopularInstructors = () => {
         style={{
           backgroundColor,
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-          padding: "0 40px 40px",
-          borderRadius: "150px 150px 20px 20px",
+          padding: isDesktop ? "0 40px 40px" : "0 0 40px" ,
+          borderRadius: isDesktop ? "150px 150px 20px 20px" : "20px",
         }}
       >
         <motion.div

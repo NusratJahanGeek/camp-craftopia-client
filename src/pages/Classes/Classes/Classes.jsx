@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import Banner from "../../Shared/Banner/Banner";
-import bannerImg from "../../../assets/Banner2.jpg";
 import { Button, Card, Heading, Text, useToast } from "@chakra-ui/react";
 import useClasses from "../../../hooks/useClasses";
 import { useContext } from "react";
@@ -97,7 +96,7 @@ const Classes = () => {
       <Helmet>
         <title>Camp Craftopia | Classes</title>
       </Helmet>
-      <Banner image={bannerImg} title="Our Arts & Crafts Classes" />
+      <Banner title="Our Arts & Crafts Classes" />
       <div className="grid md:grid-cols-3 gap-6 p-12 my-20">
         {approvedClasses.map((classData) => (
           <Card

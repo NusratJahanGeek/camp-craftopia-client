@@ -34,7 +34,7 @@ const Hero = () => {
         {images.map((src, idx) => (
           <div key={idx} className="keen-slider__slide zoom-out__slide">
             <div style={{ position: "relative" }}>
-              <img src={src} alt={`Banner ${idx + 1}`} />
+              <img src={src} alt={`Banner ${idx + 1}`} className="banner-image" />
               <div
                 className="color-overlay"
                 style={{ backgroundColor: overlayBgColor, color: overlayTextColor }}

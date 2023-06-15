@@ -124,7 +124,7 @@ const NavBar = () => {
           bg="#FFD9EC"
           py={4}
           px={6}
-          zIndex={999} // Set a higher z-index value
+          zIndex={999}
         >
           <Menu>
             <MenuButton

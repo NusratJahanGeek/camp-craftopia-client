@@ -40,7 +40,7 @@ const CountdownTimer = () => {
   };
 
   return (
-    <div>
+    <div className="px-2">
       <SectionTitle heading="Summer Special Discount" subHeading="Get 10% off on all camp registrations this summer!" />
       <Text textAlign="center">For a Limited Time Only</Text>
       <Flex justifyContent="center" alignItems="center" py={4}>

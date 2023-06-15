@@ -1,33 +1,55 @@
-import { Heading, useColorMode, Box } from "@chakra-ui/react";
+import { Heading, useColorMode, Box, useBreakpointValue } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+import "./Banner.css";
 
-const Banner = ({ image, title }) => {
+const Banner = ({ title }) => {
   const { colorMode } = useColorMode();
-  const overlayBgColor = colorMode === "dark" ? "#000000bf" : "#dededecf";
-  const overlayTextColor = colorMode === "dark" ? "#FFFFFF" : "#000000";
+
+  const backgroundColor = colorMode === "dark" ? "#2D3748" : "#FFF";
+
+  const headingSize = useBreakpointValue({ base: "2xl", md: "4xl" });
+  const pyValue = useBreakpointValue({ base: 16, md: 24 });
+  const skewValue = useBreakpointValue({ base: 0, md: "-10deg" });  
+  const skewTextValue = useBreakpointValue({ base: 0, md: "10deg" });
 
   return (
-    <Box backgroundColor={overlayBgColor}>
-      <div className="banner-slider-container" style={{ height: "500px" }}>
-        <div className="banner-slide">
-          <div style={{ position: "relative", color: overlayTextColor }}>
-            <img src={image} alt="Banner 1" />
-            <div className="color-overlay">
-              <div className="text-overlay">
-                <Heading
-                  as="h1"
-                  size="4xl"
-                  mb={8}
-                  _hover={{ color: "coral" }}
-                  color={overlayTextColor}
-                >
-                  <span style={{ position: "relative", zIndex: "1" }}>{title}</span>
-                </Heading>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Box>
+    <motion.div
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 2, bounce: 8 }}
+      style={{ position: "relative" }}
+    >
+      <Box
+        bg={backgroundColor}
+        py={pyValue}
+        px="auto"
+        textAlign="center"
+        boxShadow="120px 120px 120px rgba(255, 217, 236, 1)"
+        borderWidth={4}
+        borderStyle="double"
+        borderColor="#FF6B6B"
+        borderRadius="20px 0 20px 0"
+        transform={`skewX(${skewValue})`}
+        overflow="hidden"
+      >
+        <motion.span
+          style={{
+            display: "inline-block",
+            position: "relative",
+            animation: "zigzag 4s infinite",
+          }}
+        >
+          <Heading
+            as="h1"
+            size={headingSize}
+            _hover={{ color: "#FF6B6B" }}
+            transform={`skewX(${skewTextValue})`}
+          >
+            {title}
+          </Heading>
+        </motion.span>
+      </Box>
+    </motion.div>
   );
 };
 

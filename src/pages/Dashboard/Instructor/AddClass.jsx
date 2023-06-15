@@ -82,7 +82,7 @@ const AddClass = () => {
       <DashboardBg applyPadding={false}>
         <SectionTitle heading="Add A Class" />
 
-        <Center>
+        <Center className="px-4">
           <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
             <FormControl spacing={8} marginBottom={4} className="space-y-2">
               <FormLabel>Class Name</FormLabel>

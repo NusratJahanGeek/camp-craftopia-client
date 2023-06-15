@@ -6,7 +6,7 @@ const SectionTitle = ({ heading, subHeading }) => {
   const headingFontSize = useBreakpointValue({ base: "4xl", md: "5xl" });
 
   return (
-    <div className="my-8 text-center space-y-2 pt-12">
+    <div className="my-12 text-center space-y-2 pt-14">
       <Flex justify="center" gap={2}>
         <Text fontSize="lg" fontWeight="bold">
           {subHeading}
@@ -22,7 +22,8 @@ const SectionTitle = ({ heading, subHeading }) => {
       </Flex>
       <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
       <Text
-        mt={-4}
+        mt={{ base: 0, md: -4 }}
+        px={{base: 5, md: 0}}
         fontSize={headingFontSize}
         fontFamily="heading"
         fontWeight="bold">

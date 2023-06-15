@@ -1,12 +1,29 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Flex, Heading, Button, Box, useColorMode, Text } from "@chakra-ui/react";
-import SectionTitle from "../../../../components/SectionTitle";
-import colorSplash from "../../../../assets/ColorSplash.jpg"
-import backgroundDark from "../../../../assets/backgroundDark.png"
+import {
+  Flex,
+  Heading,
+  Button,
+  Box,
+  useColorMode,
+  Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  useBreakpointValue,
+} from "@chakra-ui/react";
+import colorSplash from "../../../assets/ColorSplash.jpg";
+import backgroundDark from "../../../assets/backgroundDark.png";
+import SectionTitle from "../../../components/SectionTitle";
 
 const Events = () => {
   const [selectedId, setSelectedId] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { colorMode } = useColorMode();
 
@@ -31,12 +48,31 @@ const Events = () => {
     },
   ];
 
+ 
+  
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   const handleItemClick = (itemId) => {
-    setSelectedId(itemId === selectedId ? null : itemId);
+    if (isMobile) {
+      setSelectedId(itemId);
+      onOpen();
+    } else {
+      setSelectedId(itemId === selectedId ? null : itemId);
+    }
   };
 
   return (  
-    <Box backgroundSize="cover" backgroundImage={`url(${bgSplash})`}  pt={12} pb={24} mt={24} px={4} borderRadius="500px 500px 0 0">
+    <Box
+      backgroundSize="cover"
+      backgroundImage={`url(${bgSplash})`}
+      pt={isMobile ? 4 : 12}
+      pb={24}
+      mt={isMobile ? 12 : 24}
+      px={4}
+      borderRadius={isMobile ? "0 150px 0 0" : "500px 500px 0 0"}
+    >
+  
       <SectionTitle heading="Upcoming Events" subHeading="Let's Create Incredible Summer Memories Together!" />
       <Flex align="center" justify="center" flexWrap="wrap">
         {items.map((item) => (
@@ -66,7 +102,23 @@ const Events = () => {
         <AnimatePresence>
           {selectedId && (
             <motion.div layoutId={selectedId}>
-              <Box
+              {isMobile && (
+                <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
+                  <ModalOverlay />
+                  <ModalContent py={4}>
+                    <ModalHeader>{items[selectedId - 1].title}</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                      <p>{items[selectedId - 1].description}</p>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button onClick={onClose}>Close</Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
+              )}
+              {!isMobile && (
+                <Box
                 p={8}
                 mx={4}
                 mb={4}
@@ -82,6 +134,7 @@ const Events = () => {
                 <p>{items[selectedId - 1].description}</p>
                 <Button mt={8} onClick={() => handleItemClick(selectedId)}>Close</Button>
               </Box>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

@@ -11,15 +11,14 @@ const Footer = () => {
   return (
     <>
       <hr style={{ borderColor: "#FFD9EC", opacity: 1, borderWidth: "2px" }} />
-      <Box bg={bgColor} color={textColor}  py={20}>
+      <Box bg={bgColor} color={textColor} py={20}>
       <Grid
           templateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }}
           gap={6}
           alignItems="start"
           justifyItems="center"
-          px={20}
         >
-          <Box>
+          <Box textAlign="center">
             <Text fontSize="3xl" fontWeight="bold" lineHeight="1.5">
               Camp Craftopia
             </Text>
@@ -46,7 +45,7 @@ const Footer = () => {
             <p>Privacy Policy</p>
           </Box>
           <Box style={{ lineHeight: "28px" }} textAlign="center">
-          <Text fontSize="lg" fontWeight="bold" marginBottom="6px">
+          <Text fontSize="lg" fontWeight="bold">
               Support
             </Text>
             <p>FAQ</p>

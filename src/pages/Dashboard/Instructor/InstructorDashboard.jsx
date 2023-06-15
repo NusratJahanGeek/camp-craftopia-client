@@ -12,9 +12,8 @@ const InstructorDashboard = () => {
   const { isOpen } = useDisclosure();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const gridColumnTemplate = useBreakpointValue({
-    base: "repeat(1, 1fr)",
-    md: "repeat(2, 1fr)",
-    lg: "repeat(3, 1fr)",
+    base: "repeat(2, 1fr)",
+    md: "repeat(3, 1fr)",
   });
 
   const { colorMode } = useColorMode();
@@ -22,7 +21,9 @@ const InstructorDashboard = () => {
 
   const background = colorMode === "light" ? "#fff" : "#2d3748";
 
-  const paddingXValue = useBreakpointValue({ base: "0", md: isDesktop && isOpen ? "250px" : "420px" });
+  const paddingXValue = useBreakpointValue({ base: "0", md: isDesktop && isOpen ? "250px" : "250px", lg: isDesktop && isOpen ? "250px" : "420px" });
+
+  const paddingYValue = useBreakpointValue({ base: "100px" });
 
   const heightValue = useBreakpointValue({ base: "100%", md: isDesktop ? "100vh" : "100%"});
 
@@ -71,6 +72,7 @@ const InstructorDashboard = () => {
       justifyContent="center"
       alignItems="center"
       pl={isDesktop && isOpen ? "250px" : 0}
+      paddingTop={paddingYValue}
       transition="padding-left 0.3s ease"
       textAlign="center"
       backgroundImage={`url(${DashboardBackground})`}

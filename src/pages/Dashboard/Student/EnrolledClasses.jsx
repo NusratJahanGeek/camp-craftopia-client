@@ -110,7 +110,7 @@ const EnrolledClasses = () => {
                           {classData.name}
                         </Flex>
                       </Td>
-                      <Td>{classData.instructor}</Td>
+                      <Td textAlign="center">{classData.instructor}</Td>
                       <Td textAlign="center">
                         {instructorEmail(classData.instructor)}
                       </Td>

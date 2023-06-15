@@ -60,7 +60,7 @@ const SelectedClasses = () => {
             </Text>
            
           </Flex>
-          <TableContainer mt={12} w={["100%", "100%", "65%"]} mx="auto">
+          <TableContainer mt={12} w={["100%", "100%", "80%"]} mx="auto">
             <Table>
               <Thead fontSize="34px">
                 <Tr>

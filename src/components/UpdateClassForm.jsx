@@ -3,8 +3,8 @@ import { Button, FormControl, FormLabel, Input, useToast } from "@chakra-ui/reac
 
 const UpdateClassForm = ({ classData, onUpdate }) => {
   const [name, setName] = useState(classData.name);
-  const [price, setPrice] = useState(classData.price);
-  const [availableSeats, setAvailableSeats] = useState(classData.availableSeats);
+  const [price, setPrice] = useState(parseInt(classData.price));
+  const [availableSeats, setAvailableSeats] = useState(parseInt(classData.availableSeats));
   const [image, setImage] = useState(classData.image);
 
   const toast = useToast();
@@ -43,12 +43,12 @@ const UpdateClassForm = ({ classData, onUpdate }) => {
 
       <FormControl>
         <FormLabel>Price</FormLabel>
-        <Input type="number" value={price} focusBorderColor="#FF6B6B" onChange={(e) => setPrice(e.target.value)} />
+        <Input type="number" value={price} focusBorderColor="#FF6B6B" onChange={(e) => setPrice(parseInt(e.target.value))} />
       </FormControl>
       
       <FormControl mt={4}>
         <FormLabel>Available Seats</FormLabel>
-        <Input type="number" value={availableSeats} focusBorderColor="#FF6B6B" onChange={(e) => setAvailableSeats(e.target.value)} />
+        <Input type="number" value={availableSeats} focusBorderColor="#FF6B6B" onChange={(e) => setAvailableSeats(parseInt(e.target.value))} />
       </FormControl>
       <Button mt={4} onClick={handleUpdateClass}>
         Update

@@ -20,7 +20,7 @@ const TopClass = ({ classData }) => {
             <Heading size="lg">{name}</Heading>
             <Text pt="4">Instructor: {instructor}</Text>
             <Text py="2">Price: ${price}</Text>
-            <Text py="2">Available Seats: {availableSeats}</Text>
+            <Text pb="4">Available Seats: {availableSeats}</Text>
             <Link to="/classes">
             <Button>View Details</Button>
             </Link>
