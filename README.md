@@ -1,4 +1,4 @@
-# [Server Side Repository Link] ([https://camp-craftopia.web.app/](https://github.com/NusratJahanGeek/magical-toyland-server))
+# ([Server Side Repository Link](https://github.com/NusratJahanGeek/magical-toyland-server))
 
 # Camp Craftopia: Unleash Your Creativity!
 
