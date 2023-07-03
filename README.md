@@ -1,3 +1,5 @@
+# [Server Side Repository Link] ([https://camp-craftopia.web.app/](https://github.com/NusratJahanGeek/magical-toyland-server))
+
 # Camp Craftopia: Unleash Your Creativity!
 
 Welcome to Camp Craftopia, where creativity knows no bounds! Get ready for an extraordinary arts and crafts summer camp experience that will inspire and empower you. Our website is designed to provide a user-friendly platform where students can explore their artistic skills, learn from talented instructors, and embark on a creative adventure like never before.
